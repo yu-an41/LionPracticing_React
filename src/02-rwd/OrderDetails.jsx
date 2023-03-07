@@ -4,22 +4,22 @@ import "./OrderDetails.scss";
 
 function OrderDetails() {
   return (
-    <div>
-      <ul className="OD_title_section" style={{ display: "none" }}>
+    <div className="OD_container">
+      <ul className="OD_title_section">
         {/* 手機版時隱藏這塊 */}
-        <li className="OD_title_lists">訂單編號</li>
-        <li className="OD_title_lists">下單日期</li>
-        <li className="OD_title_lists">單別/來源</li>
-        <li className="OD_title_lists">同業業務</li>
-        <li className="OD_title_lists">出發日期</li>
-        <li className="OD_title_lists">產品名稱</li>
-        <li className="OD_title_lists">人數</li>
-        <li className="OD_title_lists">狀況</li>
-        <li className="OD_title_lists">證照進度</li>
-        <li className="OD_title_lists">雄獅業務</li>
-        <li className="OD_title_lists">行前資料</li>
-        <li className="OD_title_lists">總金額</li>
-        <li className="OD_title_lists">尚欠款</li>
+        <li className="OD_title_lists OD_title_100">訂單編號</li>
+        <li className="OD_title_lists OD_title_100">下單日期</li>
+        <li className="OD_title_lists OD_title_100">單別/來源</li>
+        <li className="OD_title_lists OD_title_60">同業業務</li>
+        <li className="OD_title_lists OD_title_115">出發日期</li>
+        <li className="OD_title_lists OD_title_165">產品名稱</li>
+        <li className="OD_title_lists OD_title_60">人數</li>
+        <li className="OD_title_lists OD_title_80">狀況</li>
+        <li className="OD_title_lists OD_title_60">證照進度</li>
+        <li className="OD_title_lists OD_title_70">雄獅業務</li>
+        <li className="OD_title_lists OD_title_100">行前資料</li>
+        <li className="OD_title_lists OD_title_70">總金額</li>
+        <li className="OD_title_lists OD_title_110">尚欠款</li>
       </ul>
       <div className="OD_bottom_section">
         <div className="OD_block">
@@ -74,14 +74,14 @@ function OrderDetails() {
             </li>
             <li className="OD_block_flex">
               <li className="OD_block_item width_half">
-                  <p className="OD_block_title">證照進度</p>
-                  <p className="OD_block_content">
-                    <span className="OD_block_lightbox">查看</span>
-                  </p>
+                <p className="OD_block_title">證照進度</p>
+                <p className="OD_block_content">
+                  <span className="OD_block_lightbox">查看</span>
+                </p>
               </li>
               <li className="OD_block_item width_half">
-                  <p className="OD_block_title OD_align_left">雄獅業務</p>
-                  <p className="OD_block_content">鐘幼琦</p>
+                <p className="OD_block_title OD_align_left">雄獅業務</p>
+                <p className="OD_block_content">鐘幼琦</p>
               </li>
             </li>
             {/* 恢復一列一項 */}
@@ -96,16 +96,18 @@ function OrderDetails() {
             {/* 這邊開始一列兩項 */}
             <li className="OD_block_flex">
               <li className="OD_block_item width_half">
-                  <p className="OD_block_title">總金額</p>
-                  <p className="OD_block_content">
-                    <span className="OD_block_content_price">$77,800</span>
-                  </p>
+                <p className="OD_block_title">總金額</p>
+                <p className="OD_block_content">
+                  <span className="OD_block_content_price">$77,800</span>
+                </p>
               </li>
               <li className="OD_block_item width_half">
-                  <p className="OD_block_title OD_align_left">尚欠款</p>
-                  <p className="OD_block_content">
-                    <div className="OD_block_content_price OD_block_content_button">$890,000</div>
-                  </p>
+                <p className="OD_block_title OD_align_left OD_align_center">尚欠款</p>
+                <p className="OD_block_content">
+                  <div className="OD_block_content_price OD_block_content_button">
+                    $890,000
+                  </div>
+                </p>
               </li>
             </li>
           </ul>
