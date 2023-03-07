@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 // pages
-import OrderDetails from './02-rwd/OrderDetails'
+import OrderDetails from './02-rwd/OrderDetails_Group'
 
 function App() {
 

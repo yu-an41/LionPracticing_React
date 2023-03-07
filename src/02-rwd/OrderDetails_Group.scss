@@ -129,6 +129,10 @@ $textRed: #f03742;
         .OD_block {
             padding: 0;
             max-width: 1190px;
+            box-shadow: none;
+            border-radius: 5px;
+            border-bottom: 1px solid #dddddd;
+            display: flex;
           .OD_block_item {
             .OD_block_title {
                 display: none;
@@ -150,6 +154,9 @@ $textRed: #f03742;
                 }
             }
           }
+        }
+        .OD_block:hover {
+            box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
         }
         .OD_block_flex {
             .OD_block_title_half {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "./OrderDetails.scss";
+import "./OrderDetails_Group.scss";
 
 function OrderDetails() {
   return (
