@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from "react";
-import {Link} from 'react-router-dom'; 
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./OrderDetails.scss";
 
-const useMobile = () => {
-  const [device, setDevice] = useState("mobile");
-  return device;
-};
 function OrderDetails() {
   return (
     <div>
@@ -37,47 +33,80 @@ function OrderDetails() {
             </li>
             <li className="OD_block_item">
               <p className="OD_block_title">下單日期</p>
-              <p className="OD_block_content">
-              </p>
+              <p className="OD_block_content">2018/09/11</p>
             </li>
             <li className="OD_block_item">
               <p className="OD_block_title">單別/來源</p>
               <p className="OD_block_content">
-              <span></span>
+                B2BC團&nbsp;/&nbsp;
+                <span className="OD_block_lightbox">陳寶雪</span>
               </p>
             </li>
             <li className="OD_block_item">
               <p className="OD_block_title">同業業務</p>
-              <p className="OD_block_content">
-              </p>
+              <p className="OD_block_content">許士仁</p>
             </li>
             <li className="OD_block_item">
               <p className="OD_block_title">出發日期</p>
-              <p className="OD_block_content">
-              </p>
+              <p className="OD_block_content">2018/09/24</p>
             </li>
             <li className="OD_block_item">
               <p className="OD_block_title">產品名稱</p>
-              <ul className="OD_block_content">
-                <li></li>
-              </ul>
+              <p className="OD_block_content">
+                <Link className="OD_block_link">
+                  18EE924BR
+                  <span className="OD_block_slash_product">&nbsp;/&nbsp;</span>
+                  <br />
+                  特選奧捷鹽礦國王湖10日
+                </Link>
+              </p>
             </li>
-            <li className="OD_block_title"></li>
             {/* 這邊開始一列兩項 */}
-            <li className="OD_block_title_flex">
-              <li className="OD_block_title">人數</li>
-              <li className="OD_block_title">狀況</li>
+            <li className="OD_block_flex">
+              <li className="OD_block_item width_half">
+                <p className="OD_block_title">人數</p>
+                <p className="OD_block_content">2</p>
+              </li>
+              <li className="OD_block_item width_half">
+                <p className="OD_block_title OD_align_left">狀態</p>
+                <p className="OD_block_content">HK</p>
+              </li>
             </li>
-            <li className="OD_block_title_flex">
-              <li className="OD_block_title">證照進度</li>
-              <li className="OD_block_title">雄獅業務</li>
+            <li className="OD_block_flex">
+              <li className="OD_block_item width_half">
+                  <p className="OD_block_title">證照進度</p>
+                  <p className="OD_block_content">
+                    <span className="OD_block_lightbox">查看</span>
+                  </p>
+              </li>
+              <li className="OD_block_item width_half">
+                  <p className="OD_block_title OD_align_left">雄獅業務</p>
+                  <p className="OD_block_content">鐘幼琦</p>
+              </li>
             </li>
             {/* 恢復一列一項 */}
-            <li className="OD_block_title">行前資料</li>
+            <li className="OD_block_item">
+              <p className="OD_block_title">行前資料</p>
+              <p className="OD_block_content">
+                <Link className="OD_block_link">說資</Link>
+                <span className="OD_block_slash_pre">/&nbsp;</span>
+                <span className="OD_block_lightbox">行前說明會</span>
+              </p>
+            </li>
             {/* 這邊開始一列兩項 */}
-            <li className="OD_block_title_flex">
-              <li className="OD_block_title">總金額</li>
-              <li className="OD_block_title OD_block_title_half">尚欠款</li>
+            <li className="OD_block_flex">
+              <li className="OD_block_item width_half">
+                  <p className="OD_block_title">總金額</p>
+                  <p className="OD_block_content">
+                    <span className="OD_block_content_price">$77,800</span>
+                  </p>
+              </li>
+              <li className="OD_block_item width_half">
+                  <p className="OD_block_title OD_align_left">尚欠款</p>
+                  <p className="OD_block_content">
+                    <div className="OD_block_content_price OD_block_content_button">$890,000</div>
+                  </p>
+              </li>
             </li>
           </ul>
         </div>
