@@ -23,6 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
+jsconfig.json
 public/vite.svg
 
 src/assets
