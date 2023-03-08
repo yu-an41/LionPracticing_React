@@ -28,8 +28,3 @@ public/vite.svg
 
 src/assets
 src/App.css
-
-vite.config.js
-package.json
-package-lock.json
-
