@@ -14,7 +14,7 @@ function OrderDetails() {
         <li className="OD_title_lists OD_title_115">出發日期</li>
         <li className="OD_title_lists OD_title_165">產品名稱</li>
         <li className="OD_title_lists OD_title_60">人數</li>
-        <li className="OD_title_lists OD_title_80">狀況</li>
+        <li className="OD_title_lists OD_title_80">狀態</li>
         <li className="OD_title_lists OD_title_60">證照進度</li>
         <li className="OD_title_lists OD_title_70">雄獅業務</li>
         <li className="OD_title_lists OD_title_100">行前資料</li>
@@ -25,83 +25,84 @@ function OrderDetails() {
         <div className="OD_block">
           <ul>
             {/* 一列一項 */}
-            <li className="OD_block_item">
+            <li className="OD_block_item OD_title_100">
               <p className="OD_block_title">訂單編號</p>
               <p className="OD_block_content">
-                <Link className="OD_block_link">8-2817070</Link>
+                <Link className="OD_block_link" to="/">8-2817070</Link>
               </p>
             </li>
-            <li className="OD_block_item">
+            <li className="OD_block_item OD_title_100">
               <p className="OD_block_title">下單日期</p>
               <p className="OD_block_content">2018/09/11</p>
             </li>
-            <li className="OD_block_item">
+            <li className="OD_block_item OD_title_100">
               <p className="OD_block_title">單別/來源</p>
-              <p className="OD_block_content">
-                B2BC團&nbsp;/&nbsp;
+              <p className="OD_block_content OD_content_flex">
+                <p>B2BC團&nbsp;/&nbsp;</p>
                 <span className="OD_block_lightbox">陳寶雪</span>
               </p>
             </li>
-            <li className="OD_block_item">
+            <li className="OD_block_item OD_title_60">
               <p className="OD_block_title">同業業務</p>
               <p className="OD_block_content">許士仁</p>
             </li>
-            <li className="OD_block_item">
+            <li className="OD_block_item OD_title_115">
               <p className="OD_block_title">出發日期</p>
               <p className="OD_block_content">2018/09/24</p>
             </li>
-            <li className="OD_block_item">
+            <li className="OD_block_item OD_title_165">
               <p className="OD_block_title">產品名稱</p>
               <p className="OD_block_content">
-                <Link className="OD_block_link">
-                  18EE924BR
-                  <span className="OD_block_slash_product">&nbsp;/&nbsp;</span>
-                  <br />
-                  特選奧捷鹽礦國王湖10日
+                <Link className="OD_block_link ">
+                <p className="OD_align_left">18EE924BR<span className="OD_block_slash_product">&nbsp;/&nbsp;</span></p>
+                <p className="OD_align_left">特選奧捷鹽礦國王湖10日</p>
                 </Link>
               </p>
             </li>
-            {/* 這邊開始一列兩項 */}
+            {/* 手機版這邊開始一列兩項 */}
             <li className="OD_block_flex">
-              <li className="OD_block_item width_half">
+              <li className="OD_block_item OD_width_half OD_title_60">
                 <p className="OD_block_title">人數</p>
                 <p className="OD_block_content">2</p>
               </li>
-              <li className="OD_block_item width_half">
+              <li className="OD_block_item OD_width_half OD_title_80">
                 <p className="OD_block_title OD_align_left">狀態</p>
                 <p className="OD_block_content">HK</p>
               </li>
             </li>
             <li className="OD_block_flex">
-              <li className="OD_block_item width_half">
+              <li className="OD_block_item OD_width_half OD_title_60">
                 <p className="OD_block_title">證照進度</p>
                 <p className="OD_block_content">
                   <span className="OD_block_lightbox">查看</span>
                 </p>
               </li>
-              <li className="OD_block_item width_half">
+              <li className="OD_block_item OD_width_half OD_title_70">
                 <p className="OD_block_title OD_align_left">雄獅業務</p>
                 <p className="OD_block_content">鐘幼琦</p>
               </li>
             </li>
             {/* 恢復一列一項 */}
-            <li className="OD_block_item">
+            <li className="OD_block_item OD_title_100">
               <p className="OD_block_title">行前資料</p>
-              <p className="OD_block_content">
-                <Link className="OD_block_link">說資</Link>
+              <p className="OD_block_content OD_content_flex">
+                <Link className="OD_block_link">
+                <p>說資
                 <span className="OD_block_slash_pre">/&nbsp;</span>
+                </p>
+                </Link>
                 <span className="OD_block_lightbox">行前說明會</span>
               </p>
             </li>
             {/* 這邊開始一列兩項 */}
             <li className="OD_block_flex">
-              <li className="OD_block_item width_half">
+              <li className="OD_block_item width_half OD_title_70">
                 <p className="OD_block_title">總金額</p>
                 <p className="OD_block_content">
                   <span className="OD_block_content_price">$77,800</span>
                 </p>
               </li>
-              <li className="OD_block_item width_half">
+              <li className="OD_block_item width_half OD_title_110 OD_margin_right">
                 <p className="OD_block_title OD_align_left OD_align_center">尚欠款</p>
                 <p className="OD_block_content">
                   <div className="OD_block_content_price OD_block_content_button">
