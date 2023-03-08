@@ -1,6 +1,7 @@
 $textBlue: #3ea5d9;
 $textBlack: #444444;
 $textRed: #f03742;
+$textDisabled: #bbbbbb;
 
 * {
   box-sizing: border-box;
@@ -93,8 +94,8 @@ $textRed: #f03742;
         }
       }
     }
-    .OD_block.OD_disabled {
-
+    .OD_block.OD_disabled * {
+      color: $textDisabled;
     }
   }
 }
@@ -153,12 +154,16 @@ $textRed: #f03742;
           .OD_block_content {
             width: 100%;
             text-align: center;
+            color: #222222;
 
             .OD_block_link {
               // text-align: left;
               // display: block;
             }
             .OD_block_lightbox {
+            }
+            .OD_status_lightbox {
+              border-bottom: 1px dashed #444444;
             }
             .OD_block_slash_product {
               display: inline;

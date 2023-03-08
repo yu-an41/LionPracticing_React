@@ -177,14 +177,15 @@ function OrderDetails() {
                   </li>
                   <li className="OD_block_item OD_width_half OD_title_80">
                     <p className="OD_block_title OD_align_left">狀態</p>
-                    <p className="OD_block_content">{v.status}</p>
+                    <p className="OD_block_contentOD_status_lightbox">{v.status}</p>
                   </li>
                 </li>
                 <li className="OD_block_flex">
                   <li className="OD_block_item OD_width_half OD_title_60">
                     <p className="OD_block_title">證照進度</p>
                     <p className="OD_block_content">
-                      <span className="OD_block_lightbox">查看</span>
+                    {v.status === '作廢'? <span>-</span> : <span className="OD_block_lightbox">查看</span>}
+                      
                     </p>
                   </li>
                   <li className="OD_block_item OD_width_half OD_title_70">
@@ -195,12 +196,13 @@ function OrderDetails() {
                 {/* 恢復一列一項 */}
                 <li className="OD_block_item OD_title_100">
                   <p className="OD_block_title">行前資料</p>
-                  <p className="OD_block_content OD_content_flex">
+                  <p className="OD_block_content OD_content_flex OD_pre_schedule">
                     <Link className="OD_block_link" to={v.preSchedule.link}>
-                      <p>
+                    {v.status === '作廢'? '':<p>
                         說資
                         <span className="OD_block_slash_pre">/&nbsp;</span>
-                      </p>
+                      </p>}
+                      
                     </Link>
                     <span className="OD_block_lightbox">行前說明會</span>
                   </p>
