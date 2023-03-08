@@ -98,16 +98,22 @@ $textDisabled: #bbbbbb;
         }
       }
     }
-    .block.disabled *  {
+    .block.disabled {
       color: $textDisabled;
 
       p.block_content, span.block_content, .block_content .block_link, .block_title {
         color: $textDisabled;
       }
-      .block_lightbox:not(.enable) {
+      .block_lightbox {
         border-bottom: 1px dashed #bbbbbb;
       }
-
+      .block_lightbox.enable {
+        color: $textBlack;
+        border-bottom: 1px dashed #444444;
+      }
+      .block_link {
+        pointer-events: none;
+      }
     }
   }
 }
