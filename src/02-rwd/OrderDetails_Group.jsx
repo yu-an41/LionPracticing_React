@@ -157,65 +157,65 @@ function OrderDetails() {
   ];
 
   return (
-    <div className="OD_container">
-      <ul className="OD_title_section">
+    <div className="container">
+      <ul className="title_section">
         {/* 手機版時隱藏這塊 */}
-        <li className="OD_title_lists OD_title_100">訂單編號</li>
-        <li className="OD_title_lists OD_title_100">下單日期</li>
-        <li className="OD_title_lists OD_title_100">單別/來源</li>
-        <li className="OD_title_lists OD_title_60">同業業務</li>
-        <li className="OD_title_lists OD_title_115">出發日期</li>
-        <li className="OD_title_lists OD_title_165">產品名稱</li>
-        <li className="OD_title_lists OD_title_60">人數</li>
-        <li className="OD_title_lists OD_title_80">狀態</li>
-        <li className="OD_title_lists OD_title_60">證照進度</li>
-        <li className="OD_title_lists OD_title_70">雄獅業務</li>
-        <li className="OD_title_lists OD_title_100">行前資料</li>
-        <li className="OD_title_lists OD_title_70">總金額</li>
-        <li className="OD_title_lists OD_title_110">尚欠款</li>
+        <li className="title_lists title_100">訂單編號</li>
+        <li className="title_lists title_100">下單日期</li>
+        <li className="title_lists title_100">單別/來源</li>
+        <li className="title_lists title_60">同業業務</li>
+        <li className="title_lists title_115">出發日期</li>
+        <li className="title_lists title_165">產品名稱</li>
+        <li className="title_lists title_60">人數</li>
+        <li className="title_lists title_80">狀態</li>
+        <li className="title_lists title_60">證照進度</li>
+        <li className="title_lists title_70">雄獅業務</li>
+        <li className="title_lists title_100">行前資料</li>
+        <li className="title_lists title_70">總金額</li>
+        <li className="title_lists title_110">尚欠款</li>
       </ul>
-      <div className="OD_bottom_section">
+      <div className="bottom_section">
         {data.map((v, i) => {
           return (
             <div
-              className={`OD_block ${v.status === "作廢" ? "OD_disabled" : ""}`}
+              className={`block ${v.status === "作廢" ? "disabled" : ""}`}
             >
               <ul>
                 {/* 手機版一列一項 */}
-                <li className="OD_block_item OD_title_100">
-                  <p className="OD_block_title">訂單編號</p>
-                  <p className="OD_block_content">
-                    <Link className="OD_block_link" to={v.orderLink}>
+                <li className="block_item title_100">
+                  <p className="block_title">訂單編號</p>
+                  <p className="block_content">
+                    <Link className="block_link" to={v.orderLink}>
                       {v.orderNum}
                     </Link>
                   </p>
                 </li>
-                <li className="OD_block_item OD_title_100">
-                  <p className="OD_block_title">下單日期</p>
-                  <p className="OD_block_content">{v.orderDate}</p>
+                <li className="block_item title_100">
+                  <p className="block_title">下單日期</p>
+                  <p className="block_content">{v.orderDate}</p>
                 </li>
-                <li className="OD_block_item OD_title_100">
-                  <p className="OD_block_title">單別/來源</p>
-                  <p className="OD_block_content OD_content_flex">
+                <li className="block_item title_100">
+                  <p className="block_title">單別/來源</p>
+                  <p className="block_content content_flex">
                     <p>{v.group}&nbsp;/&nbsp;</p>
-                    <span className="OD_block_lightbox">{v.source}</span>
+                    <span className="block_lightbox">{v.source}</span>
                   </p>
                 </li>
-                <li className="OD_block_item OD_title_60">
-                  <p className="OD_block_title">同業業務</p>
-                  <p className="OD_block_content">{v.agent}</p>
+                <li className="block_item title_60">
+                  <p className="block_title">同業業務</p>
+                  <p className="block_content">{v.agent}</p>
                 </li>
-                <li className="OD_block_item OD_title_115">
-                  <p className="OD_block_title">出發日期</p>
-                  <p className="OD_block_content">{v.departDate}</p>
+                <li className="block_item title_115">
+                  <p className="block_title">出發日期</p>
+                  <p className="block_content">{v.departDate}</p>
                 </li>
-                <li className="OD_block_item OD_title_165">
-                  <p className="OD_block_title">產品名稱</p>
-                  <p className="OD_block_content text_left">
-                    <Link className="OD_block_link" to={v.product.productLink}>
+                <li className="block_item title_165">
+                  <p className="block_title">產品名稱</p>
+                  <p className="block_content text_left">
+                    <Link className="block_link" to={v.product.productLink}>
                       <span className="text_left">
                         {v.product.productId}
-                        <span className="OD_block_slash_product">
+                        <span className="block_slash_product">
                           &nbsp;/&nbsp;
                         </span>
                       </span>
@@ -226,78 +226,78 @@ function OrderDetails() {
                   </p>
                 </li>
                 {/* 手機版這邊開始一列兩項 */}
-                <li className="OD_block_flex">
-                  <li className="OD_block_item OD_width_half OD_title_60">
-                    <p className="OD_block_title">人數</p>
-                    <p className="OD_block_content">{v.numberOfPpl}</p>
+                <li className="block_flex">
+                  <li className="block_item width_half title_60">
+                    <p className="block_title">人數</p>
+                    <p className="block_content">{v.numberOfPpl}</p>
                   </li>
-                  <li className="OD_block_item OD_width_half OD_title_80">
-                    <p className="OD_block_title text_left">狀態</p>
+                  <li className="block_item width_half title_80">
+                    <p className="block_title text_left">狀態</p>
                     <span
-                      className={`OD_block_content ${
-                        v.status === "作廢" ? "" : " OD_status_lightbox"
+                      className={`block_content ${
+                        v.status === "作廢" ? "" : " status_lightbox"
                       }`}
                     >
                       {v.status}
                     </span>
-                    {/* {v.statusDate && <p className="OD_block_content">
+                    {/* {v.statusDate && <p className="block_content">
                     {v.statusDate}
                     </p>} */}
                   </li>
                 </li>
-                <li className="OD_block_flex">
-                  <li className="OD_block_item OD_width_half OD_title_60">
-                    <p className="OD_block_title">證照進度</p>
-                    <p className="OD_block_content">
+                <li className="block_flex">
+                  <li className="block_item width_half title_60">
+                    <p className="block_title">證照進度</p>
+                    <p className="block_content">
                       {v.status === "作廢" ? (
                         <span>-</span>
                       ) : (
-                        <span className="OD_block_lightbox">查看</span>
+                        <span className="block_lightbox">查看</span>
                       )}
                     </p>
                   </li>
-                  <li className="OD_block_item OD_width_half OD_title_70">
-                    <p className="OD_block_title text_left">雄獅業務</p>
-                    <p className="OD_block_content">{v.lionAgent}</p>
+                  <li className="block_item width_half title_70">
+                    <p className="block_title text_left">雄獅業務</p>
+                    <p className="block_content">{v.lionAgent}</p>
                   </li>
                 </li>
                 {/* 恢復一列一項 */}
-                <li className="OD_block_item OD_title_100">
-                  <p className="OD_block_title">行前資料</p>
-                  <p className="OD_block_content OD_content_flex OD_pre_schedule">
-                    <Link className="OD_block_link" to={v.preSchedule.link}>
+                <li className="block_item title_100">
+                  <p className="block_title">行前資料</p>
+                  <p className="block_content content_flex pre_schedule">
+                    <Link className="block_link" to={v.preSchedule.link}>
                       {v.status === "作廢" ? (
                         ""
                       ) : (
                         <span>
                           說資
-                          <span className="OD_block_slash_pre">/&nbsp;</span>
+                          <span className="block_slash_pre">/&nbsp;</span>
                         </span>
                       )}
                     </Link>
-                    <span className="OD_block_lightbox enable">行前說明會</span>
+                    <span className="block_lightbox enable">行前說明會</span>
                   </p>
                 </li>
                 {/* 這邊開始一列兩項 */}
-                <li className="OD_block_flex">
-                  <li className="OD_block_item OD_width_half OD_title_70">
-                    <p className="OD_block_title">總金額</p>
-                    <p className="OD_block_content">
-                      <span className="OD_block_content_price">
+                <li className="block_flex">
+                  <li className="block_item width_half title_70">
+                    <p className="block_title">總金額</p>
+                    <p className="block_content">
+                      <span className="block_content_price">
                         ${Intl.NumberFormat().format(v.total)}
                       </span>
                     </p>
                   </li>
-                  <li className="OD_block_item OD_width_half OD_title_110 OD_margin_right">
-                    <p className="OD_block_title text_left OD_align_center">
+                  <li className="block_item width_half title_110 margin_right">
+                    <p className="block_title text_left align_center">
                       尚欠款
                     </p>
-                    <p className="OD_block_content OD_dp_block">
+                    <p className="block_content dp_block">
                       <div
-                        className={` OD_block_content_button ${
+                        className={` block_content_button ${
                           v.balanceDue === 0
-                            ? "OD_block_balance_zero"
-                            : "OD_block_content_price"
+                            ? "block_balance_zero"
+                            : "block_content_price"
                         }`}
                       >
                         ${Intl.NumberFormat().format(v.balanceDue)}
