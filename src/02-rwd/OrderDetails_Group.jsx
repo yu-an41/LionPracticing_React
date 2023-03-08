@@ -19,7 +19,7 @@ function OrderDetails() {
       },
       numberOfPpl: 2,
       status: "HK",
-      statusDate: '',
+      statusDate: "",
       certificate: "查看",
       lionAgent: "鐘幼琦",
       preSchedule: {
@@ -44,7 +44,7 @@ function OrderDetails() {
       },
       numberOfPpl: 2,
       status: "HK",
-      statusDate: '',
+      statusDate: "",
       certificate: "查看",
       lionAgent: "鐘幼琦",
       preSchedule: {
@@ -69,7 +69,7 @@ function OrderDetails() {
       },
       numberOfPpl: 2,
       status: "HK",
-      statusDate: '',
+      statusDate: "",
       certificate: "查看",
       lionAgent: "鐘幼琦",
       preSchedule: {
@@ -94,7 +94,7 @@ function OrderDetails() {
       },
       numberOfPpl: 2,
       status: "作廢",
-      statusDate: '',
+      statusDate: "",
       certificate: "查看",
       lionAgent: "鐘幼琦",
       preSchedule: {
@@ -119,7 +119,7 @@ function OrderDetails() {
       },
       numberOfPpl: 2,
       status: "HK",
-      statusDate: '2020/11/03 12:28',
+      statusDate: "2020/11/03 12:28",
       certificate: "查看",
       lionAgent: "鐘幼琦",
       preSchedule: {
@@ -144,7 +144,7 @@ function OrderDetails() {
       },
       numberOfPpl: 2,
       status: "HK",
-      statusDate: '',
+      statusDate: "",
       certificate: "查看",
       lionAgent: "鐘幼琦",
       preSchedule: {
@@ -152,7 +152,7 @@ function OrderDetails() {
         session: "行前說明會",
       },
       total: 7800,
-      balanceDue: 0,
+      balanceDue: 900,
     },
   ];
 
@@ -211,15 +211,17 @@ function OrderDetails() {
                 </li>
                 <li className="OD_block_item OD_title_165">
                   <p className="OD_block_title">產品名稱</p>
-                  <p className="OD_block_content">
+                  <p className="OD_block_content text_left">
                     <Link className="OD_block_link" to={v.product.productLink}>
-                      <span className="OD_align_left">
+                      <span className="text_left">
                         {v.product.productId}
                         <span className="OD_block_slash_product">
                           &nbsp;/&nbsp;
                         </span>
                       </span>
-                      <span className="OD_align_left">{v.product.productName}</span>
+                      <span className="text_left">
+                        {v.product.productName}
+                      </span>
                     </Link>
                   </p>
                 </li>
@@ -230,8 +232,14 @@ function OrderDetails() {
                     <p className="OD_block_content">{v.numberOfPpl}</p>
                   </li>
                   <li className="OD_block_item OD_width_half OD_title_80">
-                    <p className="OD_block_title OD_align_left">狀態</p>
-                    <p className={`OD_block_content ${v.status === '作廢'? '' : ' OD_status_lightbox'}`}>{v.status}</p>
+                    <p className="OD_block_title text_left">狀態</p>
+                    <span
+                      className={`OD_block_content ${
+                        v.status === "作廢" ? "" : " OD_status_lightbox"
+                      }`}
+                    >
+                      {v.status}
+                    </span>
                     {/* {v.statusDate && <p className="OD_block_content">
                     {v.statusDate}
                     </p>} */}
@@ -241,12 +249,15 @@ function OrderDetails() {
                   <li className="OD_block_item OD_width_half OD_title_60">
                     <p className="OD_block_title">證照進度</p>
                     <p className="OD_block_content">
-                    {v.status === '作廢'? <span>-</span> : <span className="OD_block_lightbox">查看</span>}
-                      
+                      {v.status === "作廢" ? (
+                        <span>-</span>
+                      ) : (
+                        <span className="OD_block_lightbox">查看</span>
+                      )}
                     </p>
                   </li>
                   <li className="OD_block_item OD_width_half OD_title_70">
-                    <p className="OD_block_title OD_align_left">雄獅業務</p>
+                    <p className="OD_block_title text_left">雄獅業務</p>
                     <p className="OD_block_content">{v.lionAgent}</p>
                   </li>
                 </li>
@@ -255,13 +266,16 @@ function OrderDetails() {
                   <p className="OD_block_title">行前資料</p>
                   <p className="OD_block_content OD_content_flex OD_pre_schedule">
                     <Link className="OD_block_link" to={v.preSchedule.link}>
-                    {v.status === '作廢'? '':<p>
-                        說資
-                        <span className="OD_block_slash_pre">/&nbsp;</span>
-                      </p>}
-                      
+                      {v.status === "作廢" ? (
+                        ""
+                      ) : (
+                        <span>
+                          說資
+                          <span className="OD_block_slash_pre">/&nbsp;</span>
+                        </span>
+                      )}
                     </Link>
-                    <span className="OD_block_lightbox">行前說明會</span>
+                    <span className="OD_block_lightbox enable">行前說明會</span>
                   </p>
                 </li>
                 {/* 這邊開始一列兩項 */}
@@ -275,11 +289,17 @@ function OrderDetails() {
                     </p>
                   </li>
                   <li className="OD_block_item OD_width_half OD_title_110 OD_margin_right">
-                    <p className="OD_block_title OD_align_left OD_align_center">
+                    <p className="OD_block_title text_left OD_align_center">
                       尚欠款
                     </p>
                     <p className="OD_block_content OD_dp_block">
-                      <div className={` OD_block_content_button ${v.balanceDue === 0 ? 'OD_block_balance_zero' : 'OD_block_content_price'}`}>
+                      <div
+                        className={` OD_block_content_button ${
+                          v.balanceDue === 0
+                            ? "OD_block_balance_zero"
+                            : "OD_block_content_price"
+                        }`}
+                      >
                         ${Intl.NumberFormat().format(v.balanceDue)}
                       </div>
                     </p>
