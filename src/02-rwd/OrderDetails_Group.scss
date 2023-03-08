@@ -93,6 +93,9 @@ $textRed: #f03742;
         }
       }
     }
+    .OD_block.OD_disabled {
+
+    }
   }
 }
 
@@ -153,7 +156,7 @@ $textRed: #f03742;
 
             .OD_block_link {
               // text-align: left;
-              display: block;
+              // display: block;
             }
             .OD_block_lightbox {
             }
@@ -173,19 +176,35 @@ $textRed: #f03742;
             display: block;
           }
         }
+
+        .OD_block_flex {
+          .OD_title_60 {
+            width: 60px;
+          }
+          .OD_title_70 {
+            width: 70px;
+          }
+          .OD_title_80 {
+            width: 80px;
+          }
+          .OD_title_100 {
+            width: 100px;
+          }
+          .OD_title_110 {
+            width: 110px;
+          }
+          .OD_title_115 {
+            width: 115px;
+          }
+          .OD_title_165 {
+            width: 165px;
+          }
+        }
       }
       .OD_block:hover {
         box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
       }
-      .OD_block_flex {
-        display: block;
-        .OD_width_half {
-          width: 100%;
-        }
-        .OD_margin_right {
-
-        }
-      }
+      
     }
 
     .OD_title_60 {
