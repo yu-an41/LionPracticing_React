@@ -96,13 +96,13 @@ function OrderDetails() {
             </li>
             {/* 這邊開始一列兩項 */}
             <li className="OD_block_flex">
-              <li className="OD_block_item width_half OD_title_70">
+              <li className="OD_block_item OD_width_half OD_title_70">
                 <p className="OD_block_title">總金額</p>
                 <p className="OD_block_content">
                   <span className="OD_block_content_price">$77,800</span>
                 </p>
               </li>
-              <li className="OD_block_item width_half OD_title_110 OD_margin_right">
+              <li className="OD_block_item OD_width_half OD_title_110 OD_margin_right">
                 <p className="OD_block_title OD_align_left OD_align_center">尚欠款</p>
                 <p className="OD_block_content">
                   <div className="OD_block_content_price OD_block_content_button">
