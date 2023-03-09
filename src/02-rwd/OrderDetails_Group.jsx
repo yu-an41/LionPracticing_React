@@ -177,9 +177,7 @@ function OrderDetails() {
       <div className="bottom_section">
         {data.map((v, i) => {
           return (
-            <div
-              className={`block ${v.status === "作廢" ? "disabled" : ""}`}
-            >
+            <div className={`block ${v.status === "作廢" ? "disabled" : ""}`}>
               <ul>
                 {/* 手機版一列一項 */}
                 <li className="block_item title_100">
@@ -197,10 +195,13 @@ function OrderDetails() {
                 <li className="block_item title_100">
                   <p className="block_title">單別/來源</p>
                   <p className="block_content content_flex">
-                    <p className="block_source">{v.group}
+                    <p className="block_source">
+                      {v.group}
                       <span className="block_slash_source">&nbsp;/&nbsp;</span>
                     </p>
-                    <span className="block_lightbox block_source_name">{v.source}</span>
+                    <span className="block_lightbox block_source_name">
+                      {v.source}
+                    </span>
                   </p>
                 </li>
                 <li className="block_item title_60">
@@ -221,9 +222,7 @@ function OrderDetails() {
                           &nbsp;/&nbsp;
                         </span>
                       </span>
-                      <span className="text_left">
-                        {v.product.productName}
-                      </span>
+                      <span className="text_left">{v.product.productName}</span>
                     </Link>
                   </p>
                 </li>
@@ -267,16 +266,16 @@ function OrderDetails() {
                 <li className="block_item title_100">
                   <p className="block_title">行前資料</p>
                   <p className="block_content content_flex pre_schedule">
-                    <Link className="block_link" to={v.preSchedule.link}>
-                      {v.status === "作廢" ? (
-                        ""
-                      ) : (
+                    {v.status === "作廢" ? (
+                      ""
+                    ) : (
+                      <Link className="block_link" to={v.preSchedule.link}>
                         <span>
                           說資
                           <span className="block_slash_pre">/&nbsp;</span>
                         </span>
-                      )}
-                    </Link>
+                      </Link>
+                    )}
                     <span className="block_lightbox enable">行前說明會</span>
                   </p>
                 </li>
@@ -291,9 +290,7 @@ function OrderDetails() {
                     </p>
                   </li>
                   <li className="block_item width_half title_110 margin_right">
-                    <p className="block_title text_left align_center">
-                      尚欠款
-                    </p>
+                    <p className="block_title text_left align_center">尚欠款</p>
                     <p className="block_content dp_block">
                       <div
                         className={` block_content_button ${

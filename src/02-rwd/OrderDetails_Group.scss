@@ -101,9 +101,11 @@ $textDisabled: #bbbbbb;
     .block.disabled {
       color: $textDisabled;
 
-      p.block_content, span.block_content, .block_content .block_link, .block_title {
+      .block_item, .block_flex {
+        p.block_content, span.block_content, .block_content .block_link, .block_title, span.block_content_price {
         color: $textDisabled;
       }
+
       .block_lightbox {
         border-bottom: 1px dashed #bbbbbb;
       }
@@ -117,6 +119,8 @@ $textDisabled: #bbbbbb;
       .block_link {
         pointer-events: none;
       }
+      }
+      
     }
   }
 }
