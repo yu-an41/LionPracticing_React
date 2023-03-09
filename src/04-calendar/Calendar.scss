@@ -1,11 +1,15 @@
 $bannerBG: #EAEADD;
 $dateBG: #FDF5E0;
 $tagBG: #FE8300;
+$dateBG: rgba(186, 186, 186, 0.1);
+
 $textBlack: #444;
+$textGray: #999;
 $textRed: rgb(221, 0, 0);
 $textGreen: rgb(31, 181, 171);
 $textBlue: rgb(25, 131, 145);
-$border: 1px solid rgba(0, 0, 0, 0.1);
+
+$border: 1px solid rgba(150, 150, 150, 0.1);
 
 * {
     box-sizing: border-box;
@@ -70,7 +74,7 @@ $border: 1px solid rgba(0, 0, 0, 0.1);
     }
     
     .bottom_container {
-        .days_of_week {
+        .weeks_wrap {
             width: 100%;
             display: flex;
             justify-content: center;
@@ -86,10 +90,82 @@ $border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .days_calender {
+            display: flex;
+            flex-wrap: wrap;
 
             .day {
-                // border-bottom: $border;
+                width: calc(100% / 7);
+                height: 85px;
+            }
+            .no_date {
+                background-color: $dateBG;
+            }
+            .date {
+                // border-bottom: $border;                
+                background-color: #fff;
                 border-right: $border;
+                border-bottom: $border;
+                position: relative;
+
+                .day_tag {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    background-color: orange;
+                    color: #fff;
+                    font-size: 12px;
+                    font-weight: bold;
+                    padding: 4px 8px;
+                }
+                .day_top {
+                    display: flex;
+                    align-items: center;
+                    padding: 3px;
+                    .date_number {
+                        font-size: 12px;
+                        margin-right: 6px;
+                    }
+                    .dot {
+                        border-radius: 50%;
+                        background-color: $textRed;
+                        width: 7px;
+                        height: 7px;
+                    }
+
+                }
+
+                .day_bottom {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: start;
+                    padding-left: 3px;
+
+                    .day_details {
+                        font-size: 12px;
+                        line-height: 1.3;
+                        
+                    }
+                    .status {
+                        font-weight: bold;
+                    }
+                    .status.book {
+                        color: $tagBG;
+                    }
+                    .status.call {
+                        color: $textGreen;
+                    }
+                    .status.closed {
+                        color: $textGray;
+                    }
+                    .status.full {
+
+                    }
+
+                    .price {
+                        color: $textRed;
+                    }
+                }
             }
         }
     }
