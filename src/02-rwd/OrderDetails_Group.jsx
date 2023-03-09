@@ -265,14 +265,16 @@ function OrderDetails() {
                 {/* 恢復一列一項 */}
                 <li className="block_item title_100">
                   <p className="block_title">行前資料</p>
-                  <p className="block_content content_flex pre_schedule">
+                  <p className="block_content content_flex">
                     {v.status === "作廢" ? (
                       ""
                     ) : (
                       <Link className="block_link" to={v.preSchedule.link}>
                         <span>
                           說資
-                          <span className="block_slash_pre">/&nbsp;</span>
+                        </span>
+                        <span className="block_slash_pre">
+                        /&nbsp;
                         </span>
                       </Link>
                     )}

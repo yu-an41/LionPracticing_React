@@ -64,6 +64,7 @@ $textDisabled: #bbbbbb;
             border-bottom: 1px dashed $textBlack;
           }
           .block_slash_pre {
+            color: $textBlack;
           }
           .block_content_price {
             color: $textRed;
@@ -184,11 +185,11 @@ $textDisabled: #bbbbbb;
             .block_link {
               // text-align: left;
               // display: block;
-              span, p {
-                display: inline;
-                .block_slash_pre {
+              .block_slash_pre {
                   display: none;
                 }
+                span {
+                display: inline;
                 .block_slash_product {
                   display: inline;
                 }
@@ -197,7 +198,8 @@ $textDisabled: #bbbbbb;
                 display: block;
               }
             }
-            .block_lightbox {
+            .block_lightbox.enable {
+              display: block;
             }
             .block_content_price {
             }
