@@ -270,7 +270,7 @@ function OrderDetails() {
                       ""
                     ) : (
                       <Link className="block_link" to={v.preSchedule.link}>
-                        <span>
+                        <span className="block_link_pre">
                           說資
                         </span>
                         <span className="block_slash_pre">

@@ -59,12 +59,16 @@ $textDisabled: #bbbbbb;
                 display: none;
               }
             }
+            .block_link_pre {
+              display: inline;
+            }
+            .block_slash_pre {
+              display: inline;
+              color: $textBlack;
+            }
           }
           .block_lightbox {
             border-bottom: 1px dashed $textBlack;
-          }
-          .block_slash_pre {
-            color: $textBlack;
           }
           .block_content_price {
             color: $textRed;
