@@ -197,8 +197,10 @@ function OrderDetails() {
                 <li className="block_item title_100">
                   <p className="block_title">單別/來源</p>
                   <p className="block_content content_flex">
-                    <p>{v.group}&nbsp;/&nbsp;</p>
-                    <span className="block_lightbox">{v.source}</span>
+                    <p className="block_source">{v.group}
+                      <span className="block_slash_source">&nbsp;/&nbsp;</span>
+                    </p>
+                    <span className="block_lightbox block_source_name">{v.source}</span>
                   </p>
                 </li>
                 <li className="block_item title_60">
