@@ -159,7 +159,7 @@ function OrderDetails() {
   return (
     <div className="container">
       <ul className="title_section">
-        {/* 手機版時隱藏這塊 */}
+        {/* pc版黑底白字標題 */}
         <li className="title_lists title_100">訂單編號</li>
         <li className="title_lists title_100">下單日期</li>
         <li className="title_lists title_100">單別/來源</li>
