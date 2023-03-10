@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useMemo} from "react";
-import data1 from './../data/calendar/data1.json'
+import React, { useState, useEffect, useMemo } from "react";
+import data1 from "./../data/calendar/data1.json";
 import "./Calendar.scss";
 
 function Calendar() {
@@ -7,23 +7,24 @@ function Calendar() {
   const getMonthRange = (arr) => {
     // 把日期抓出來，轉成Date物件
     const dates = [];
-    arr.map((item, i) => dates.push(new Date(item.date)))
+    arr.map((item, i) => dates.push(new Date(item.date)));
+
     // 日期排序
-    dates.sort((a, b) => a-b)
+    // getMonth()回傳的序號+1換成月份
+    dates.sort((a, b) => a - b);
     const months = {
       smallest: {
         year: dates[0].getFullYear(),
-        month: dates[0].getMonth()
+        month: dates[0].getMonth() + 1,
       },
       largest: {
         year: dates[dates.length - 1].getFullYear(),
-        month: dates[dates.length - 1].getMonth(),
-      }
+        month: dates[dates.length - 1].getMonth() + 1,
+      },
     };
     return months;
-  }
-  const monthRange = useMemo(() => getMonthRange(data1), [])
-  console.log(monthRange)
+  };
+  const monthRange = useMemo(() => getMonthRange(data1), []);
 
   // 星期依序排列
   const daysOfWeek = [
@@ -36,46 +37,73 @@ function Calendar() {
     "星期六",
   ];
 
-  // 一進來的初始瀏覽月份&當前月份
-  let loadDate = [];
-  if(monthRange.largest.month === 1) {
-    loadDate = [monthRange.largest.year - 1, 12];
-  } else {
-    loadDate = [monthRange.largest.year, monthRange.largest.month - 1];
+  // 當前月份（預設值是一進來的瀏覽月份aka最大月份的前一個月）
+  const [currentMonth, setCurrentMonth] = useState(
+    monthRange.largest.month === 1
+      ? [monthRange.largest.year - 1, 12]
+      : [monthRange.largest.year, monthRange.largest.month - 1]
+  );
+
+  // 當前月份共幾天、第一天最後一天分別是星期幾
+  const firstDay = new Date(currentMonth[0], currentMonth[1]-1, 1);
+  const [currentDays, setCurrentDays] = useState({
+    days: new Date(currentMonth[0], currentMonth[1], 0).getDate(), 
+    firstDayOfWeek: firstDay.getDay(),
+  })
+
+  // 反白（當天月份）位置
+  const [activeMonth, setActiveMonth] = useState(1);
+
+  // 左右箭頭功能（前後月）
+  const getPrevMonth = () => {
+    if (currentMonth[1] === 1) {
+      setCurrentMonth([currentMonth[0] - 1, 12])
+    } else {
+      setCurrentMonth([currentMonth[0], currentMonth[1] - 1])
+    }
+    setActiveMonth(0);
   }
-
-  const [currentDate, setCurrentDate] = useState(loadDate);
-
-  const thisYear = 2017;
-  const thisMonth = 11;
-  const days = new Date(currentDate[0], currentDate[1], 0).getDate();
-  const firstDay = new Date(thisYear, thisMonth, 1);
-  const lastDay = new Date(thisYear, thisMonth + 1, 0);
 
   return (
     <div className="calendar_container">
       <div className="top_container">
-        <div className="arrow prev_month">
+        <div className={`arrow prev_month ${currentMonth === [monthRange.smallest.year, monthRange.smallest.month]? 'disabled':''}`}
+          onClick={()=> {
+            if (currentMonth === [monthRange.smallest.year, monthRange.smallest.month]) return
+            console.log([monthRange.smallest.year, monthRange.smallest.month])
+            getPrevMonth();
+          }}
+          >
           <i className="fa-solid fa-caret-left"></i>
         </div>
         <div className="monthly_tab">
-          <div className="tab_container">
+          <div className={`tab_container ${activeMonth === 0? 'current_tab':''}`}>
             <div className="date">
-              <p className="year">{thisMonth === 1? thisYear - 1 : thisYear}&nbsp;</p>
-              <p className="month">{thisMonth === 1? 12: thisMonth - 1}月</p>
+              <p className="year">
+                {currentMonth[1] === 1 ? currentMonth[0] - 1 : currentMonth[0]}
+                &nbsp;
+              </p>
+              <p className="month">
+                {currentMonth[1] === 1 ? 12 : currentMonth[1] - 1}月
+              </p>
             </div>
             <p className="depart_info"></p>
           </div>
-          <div className="tab_container current_tab">
+          <div className={`tab_container ${activeMonth === 1? 'current_tab':''}`}>
             <div className="date">
-              <p className="year">{thisYear}&nbsp;</p>
-              <p className="month">{thisMonth}月</p>
+              <p className="year">{currentMonth[0]}&nbsp;</p>
+              <p className="month">{currentMonth[1]}月</p>
             </div>
           </div>
-          <div className="tab_container">
+          <div className={`tab_container ${activeMonth === 2? 'current_tab':''}`}>
             <div className="date">
-              <p className="year">{thisMonth === 12? thisYear + 1 : thisYear}&nbsp;</p>
-              <p className="month">{thisMonth === 12? 1: thisMonth + 1}月</p>
+              <p className="year">
+                {currentMonth[1] === 12 ? currentMonth[0] + 1 : currentMonth[0]}
+                &nbsp;
+              </p>
+              <p className="month">
+                {currentMonth[1] === 12 ? 1 : currentMonth[1] + 1}月
+              </p>
             </div>
             <p className="depart_info">無出發日</p>
           </div>
@@ -87,43 +115,55 @@ function Calendar() {
       <div className="bottom_container">
         <div className="weeks_wrap">
           {daysOfWeek.map((day, i) => {
-            return <p className="week_day" key={i}>{day}</p>;
+            return (
+              <p className="week_day" key={i}>
+                {day}
+              </p>
+            );
           })}
         </div>
         <div className="days_calender">
-          { // 判斷前面需要幾個灰色框框aka本月從星期幾開始
-            Array(1).fill(1).map((day, i) => {
-            return <div className="day no_date" key={i}></div>
-          })}
-          { // 把本月天數白色格子跑出來
-            Array(1).fill(1).map((d, i) => {
-            return (
-              <div className="day date" key={i+1}>
-                <div className="day_tag">成團</div>
-                <div className="day_top">
-                  <p className="date_number">{i+1}</p>
-                  <div className="dot"></div>
-                </div>
-                <ul className="day_bottom">
-                  <li className="day_details status closed">預定</li>
-                  <li className="day_details available_vancancy">可賣：0</li>
-                  <li className="day_details total_vacnacy">團位：20</li>
-                  <li className="day_details price">${Intl.NumberFormat().format(76263)}</li>
-                  {/* 如果看更多就是只顯示這兩項 
+          {
+            // 判斷前面需要幾個灰色框框aka本月從星期幾開始
+            Array(currentDays.firstDayOfWeek)
+              .fill(1)
+              .map((day, i) => {
+                return <div className="day no_date" key={i}></div>;
+              })
+          }
+          {
+            // 把本月天數白色格子跑出來
+            Array(currentDays.days)
+              .fill(1)
+              .map((d, i) => {
+                return (
+                  <div className="day date" key={i + 1}>
+                    <div className="day_tag">成團</div>
+                    <div className="day_top">
+                      <p className="date_number">{i + 1}</p>
+                      <div className="dot"></div>
+                    </div>
+                    <ul className="day_bottom">
+                      <li className="day_details status available">預定</li>
+                      <li className="day_details available_vancancy">
+                        可賣：0
+                      </li>
+                      <li className="day_details total_vacnacy">團位：20</li>
+                      <li className="day_details price">
+                        ${Intl.NumberFormat().format(76263)}
+                      </li>
+                      {/* 如果看更多就是只顯示這兩項 
                   <li className="details_flex">
                     <p className="day_details link">看更多團</p>
                     <i className="day_details link fa-solid fa-caret-right"></i>
                   </li>
                   <li className="day_details price">${Intl.NumberFormat().format(76263)}<span>起</span></li>
                   */}
-                </ul>
-              </div>
-            )
-          })}
-          { // 判斷後面需要幾個灰色框框aka下月在星期幾開始
-            Array(1).fill(1).map((day, i) => {
-            return <div className="day no_date" key={i}></div>
-          })}
+                    </ul>
+                  </div>
+                );
+              })
+          }
         </div>
       </div>
     </div>
@@ -131,4 +171,3 @@ function Calendar() {
 }
 
 export default Calendar;
- 
