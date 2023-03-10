@@ -3,20 +3,20 @@ import data1 from './../data/calendar/data1.json'
 import "./Calendar.scss";
 
 function Calendar() {
-  // 最大/最小月份
+  // 最小&最大月份
   const [monthRange, setMonthRange] = useState({
     smallest: {
-      year: 2016,
-      month: 1
+      year: 0,
+      month: 0
     }, 
     largest: {
-      year: 2017,
-      month: 12
+      year: 0,
+      month: 0
     }
   })
 
   // 找到資料中的最大月份，用useMemo存起來
-  const getLargestMonth = (arr) => {
+  const getMonthRange = (arr) => {
     // 把日期抓出來，轉成Date物件
     const dates = [];
     arr.map((item, i) => dates.push(new Date(item.date)))
@@ -25,8 +25,12 @@ function Calendar() {
     dates.sort((a, b) => a-b)
     setMonthRange({...monthRange, 
       smallest: {
-        year: dates[0].getYear(),
+        year: dates[0].getFullYear(),
         month: dates[0].getMonth()
+      },
+      largest: {
+        year: dates[dates.length - 1].getFullYear(),
+        month: dates[dates.length - 1].getMonth(),
       }
     })
     console.log(dates)
@@ -34,10 +38,10 @@ function Calendar() {
   }
 
   useEffect(() => {
-    getLargestMonth(data1)
+    getMonthRange(data1)
   }, [] )
 
-  // const largestMonth = useMemo(() => getLargestMonth(data1), [])
+  // const monthRange2 = useMemo(() => getMonthRange(data1), [])
 
   // 星期依序排列
   const daysOfWeek = [
