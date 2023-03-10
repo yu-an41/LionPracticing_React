@@ -1,7 +1,45 @@
-import React from "react";
+import React, {useState, useEffect, useMemo} from "react";
+import data1 from './../data/calendar/data1.json'
 import "./Calendar.scss";
 
 function Calendar() {
+  // 最大/最小月份
+  const [monthRange, setMonthRange] = useState({
+    smallest: {
+      year: 2016,
+      month: 1
+    }, 
+    largest: {
+      year: 2017,
+      month: 12
+    }
+  })
+
+  // 找到資料中的最大月份，用useMemo存起來
+  const getLargestMonth = (arr) => {
+    // 把日期抓出來，轉成Date物件
+    const dates = [];
+    arr.map((item, i) => dates.push(new Date(item.date)))
+
+    // 日期排序
+    dates.sort((a, b) => a-b)
+    setMonthRange({...monthRange, 
+      smallest: {
+        year: dates[0].getYear(),
+        month: dates[0].getMonth()
+      }
+    })
+    console.log(dates)
+    return dates
+  }
+
+  useEffect(() => {
+    getLargestMonth(data1)
+  }, [] )
+
+  // const largestMonth = useMemo(() => getLargestMonth(data1), [])
+
+  // 星期依序排列
   const daysOfWeek = [
     "星期日",
     "星期一",
@@ -11,10 +49,13 @@ function Calendar() {
     "星期五",
     "星期六",
   ];
-  const thisYear = 2023;
-  const thisMonth = 3;
+
+  // 
+  const thisYear = 2017;
+  const thisMonth = 11;
   const days = new Date(thisYear, thisMonth, 0).getDate();
-  console.log(days);
+  const firstDay = new Date(thisYear, thisMonth, 1);
+  const lastDay = new Date(thisYear, thisMonth + 1, 0);
 
   return (
     <div className="calendar_container">
@@ -25,21 +66,21 @@ function Calendar() {
         <div className="monthly_tab">
           <div className="tab_container">
             <div className="date">
-              <p className="year">2023&nbsp;</p>
-              <p className="month">2月</p>
+              <p className="year">{thisMonth === 1? thisYear - 1 : thisYear}&nbsp;</p>
+              <p className="month">{thisMonth === 1? 12: thisMonth - 1}月</p>
             </div>
             <p className="depart_info"></p>
           </div>
           <div className="tab_container current_tab">
             <div className="date">
-              <p className="year">2023&nbsp;</p>
-              <p className="month">3月</p>
+              <p className="year">{thisYear}&nbsp;</p>
+              <p className="month">{thisMonth}月</p>
             </div>
           </div>
           <div className="tab_container">
             <div className="date">
-              <p className="year">2023&nbsp;</p>
-              <p className="month">4月</p>
+              <p className="year">{thisMonth === 12? thisYear + 1 : thisYear}&nbsp;</p>
+              <p className="month">{thisMonth === 12? 1: thisMonth + 1}月</p>
             </div>
             <p className="depart_info">無出發日</p>
           </div>
@@ -55,18 +96,12 @@ function Calendar() {
           })}
         </div>
         <div className="days_calender">
-
-          <div className="day no_date"></div>
-          <div className="day no_date"></div>
-          <div className="day no_date"></div>
-          {/* <div className="day"></div> */}
-          {
-            // 判斷前面需要幾個灰色框框aka本月從星期幾開始
-
-          }
-          {
-            // 把本月天數白色格子跑出來
-            Array(days).fill(1).map((d, i) => {
+          { // 判斷前面需要幾個灰色框框aka本月從星期幾開始
+            Array(1).fill(1).map((day, i) => {
+            return <div className="day no_date" key={i}></div>
+          })}
+          { // 把本月天數白色格子跑出來
+            Array(1).fill(1).map((d, i) => {
             return (
               <div className="day date" key={i+1}>
                 <div className="day_tag">成團</div>
@@ -90,10 +125,10 @@ function Calendar() {
               </div>
             )
           })}
-          {
-            // 判斷後面需要幾個灰色框框aka本月從星期幾開始
-          }
-          <div className="day no_date"></div>
+          { // 判斷後面需要幾個灰色框框aka下月在星期幾開始
+            Array(1).fill(1).map((day, i) => {
+            return <div className="day no_date" key={i}></div>
+          })}
         </div>
       </div>
     </div>
@@ -101,3 +136,4 @@ function Calendar() {
 }
 
 export default Calendar;
+ 
