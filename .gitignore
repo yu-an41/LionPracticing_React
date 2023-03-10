@@ -25,7 +25,7 @@ dist-ssr
 
 jsconfig.json
 public/vite.svg
-public/data/
 
 src/assets
 src/App.css
+src/data/
