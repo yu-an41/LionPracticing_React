@@ -3,27 +3,14 @@ import data1 from './../data/calendar/data1.json'
 import "./Calendar.scss";
 
 function Calendar() {
-  // 最小&最大月份
-  const [monthRange, setMonthRange] = useState({
-    smallest: {
-      year: 0,
-      month: 0
-    }, 
-    largest: {
-      year: 0,
-      month: 0
-    }
-  })
-
   // 找到資料中的最大月份，用useMemo存起來
   const getMonthRange = (arr) => {
     // 把日期抓出來，轉成Date物件
     const dates = [];
     arr.map((item, i) => dates.push(new Date(item.date)))
-
     // 日期排序
     dates.sort((a, b) => a-b)
-    setMonthRange({...monthRange, 
+    const months = {
       smallest: {
         year: dates[0].getFullYear(),
         month: dates[0].getMonth()
@@ -32,16 +19,11 @@ function Calendar() {
         year: dates[dates.length - 1].getFullYear(),
         month: dates[dates.length - 1].getMonth(),
       }
-    })
-    console.log(dates)
-    return dates
+    };
+    return months;
   }
-
-  useEffect(() => {
-    getMonthRange(data1)
-  }, [] )
-
-  // const monthRange2 = useMemo(() => getMonthRange(data1), [])
+  const monthRange = useMemo(() => getMonthRange(data1), [])
+  console.log(monthRange)
 
   // 星期依序排列
   const daysOfWeek = [
@@ -54,10 +36,19 @@ function Calendar() {
     "星期六",
   ];
 
-  // 
+  // 一進來的初始瀏覽月份&當前月份
+  let loadDate = [];
+  if(monthRange.largest.month === 1) {
+    loadDate = [monthRange.largest.year - 1, 12];
+  } else {
+    loadDate = [monthRange.largest.year, monthRange.largest.month - 1];
+  }
+
+  const [currentDate, setCurrentDate] = useState(loadDate);
+
   const thisYear = 2017;
   const thisMonth = 11;
-  const days = new Date(thisYear, thisMonth, 0).getDate();
+  const days = new Date(currentDate[0], currentDate[1], 0).getDate();
   const firstDay = new Date(thisYear, thisMonth, 1);
   const lastDay = new Date(thisYear, thisMonth + 1, 0);
 
