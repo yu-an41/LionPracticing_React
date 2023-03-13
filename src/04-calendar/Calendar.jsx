@@ -42,7 +42,7 @@ function Calendar() {
     days: new Date(currentMonth[0], currentMonth[1], 0).getDate(), 
     firstDayOfWeek: firstDay.getDay(),
   })
-  console.log(firstDay, currentDays)
+  // console.log(firstDay, currentDays)
 
   // 反白（當天月份）位置
   const [activeMonth, setActiveMonth] = useState(1);
@@ -57,10 +57,17 @@ function Calendar() {
     currentMonth === (monthRange.largest.month === 1
     ? [monthRange.largest.year - 1, 12]
     : [monthRange.largest.year, monthRange.largest.month - 1]));
-  console.log(currentMonth);
+  // console.log(currentMonth);
 
   // 左右箭頭功能（前後月）
   const getPrevMonth = () => {
+    // 如果左邊tab為最小月，acitve才會移動
+    if ([currentMonth[1] === 1 ? currentMonth[0] - 1 : currentMonth[0], currentMonth[1] === 1 ? 12 : currentMonth[1] - 1] === [monthRange.smallest.year, monthRange.smallest.month]) {
+      // setActiveMonth(0);
+    } else {
+      
+    }
+    
     if (currentMonth[1] === 1) {
       setCurrentMonth([currentMonth[0] - 1, 12])
     } else {
@@ -70,19 +77,14 @@ function Calendar() {
   }
 
   const getNextMonth = () => {
-    if (currentMonth === (monthRange.largest.month === 1
-      ? [monthRange.largest.year - 1, 12]
-      : [monthRange.largest.year, monthRange.largest.month - 1])) {
-        
-    } else { 
-      if (currentMonth[1] === 12) {
-        setCurrentMonth([currentMonth[0] + 1, 1])
-      } else {
-        setCurrentMonth([currentMonth[0], currentMonth[1] + 1])
-      }
+    // 如果右邊tab為最大月，acitve才會移動到最右邊
+    if (
+      JSON.stringify([currentMonth[1] === 12 ? currentMonth[0] + 1 : currentMonth[0], currentMonth[1] === 12 ? 1 : currentMonth[1] + 1]) === JSON.stringify([monthRange.largest.year, monthRange.largest.month])) {
+      setActiveMonth(2);
+      setCurrentMonth([currentMonth[1] === 12 ? currentMonth[0] + 1 : currentMonth[0], currentMonth[1] === 12 ? 1 : currentMonth[1] + 1]);
+    } 
     }
-    setActiveMonth(activeMonth === 2? 2: activeMonth + 1)
-}
+
 
   return (
     <div className="calendar_container">
@@ -99,7 +101,7 @@ function Calendar() {
           return (
             <div key={i} className={`tab_container ${activeMonth === i? 'current_tab':''}`}>
               <div className="date">
-                {i === 0? (
+                  {i === 0? (
                   <>
                   <p className="year">
                     {currentMonth[1] === 1 ? currentMonth[0] - 1 : currentMonth[0]}&nbsp;
@@ -131,7 +133,7 @@ function Calendar() {
           )
         })}
         </div>
-        <div className={`arrow next_month ${currentMonth === [monthRange.largest.year, monthRange.largest.month]? 'disabled':''}`}
+        <div className={`arrow next_month ${activeMonth === 2? 'disabled':''}`}
           onClick={() => {
             if (currentMonth !== [monthRange.largest.year, monthRange.largest.month]) getNextMonth();
           }}
@@ -150,16 +152,14 @@ function Calendar() {
           })}
         </div>
         <div className="days_calender">
-          {
-            // 判斷前面需要幾個灰色框框aka本月從星期幾開始
+          { // 判斷前面需要幾個灰色框框aka本月從星期幾開始
             Array(currentDays.firstDayOfWeek)
               .fill(1)
               .map((day, i) => {
                 return <div className="day no_date" key={i}></div>;
               })
           }
-          {
-            // 把本月天數白色格子跑出來
+          {// 把本月天數白色格子跑出來
             Array(currentDays.days)
               .fill(1)
               .map((d, i) => {
