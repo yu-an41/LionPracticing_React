@@ -89,7 +89,12 @@ function Calendar() {
     }
 
   // 點月份tab連動currentMonth跟active
-  const handleMonthTab = ()=> {
+  const handleTabClick = (e)=> {
+    console.log(e.currentTarget)
+    // 方法一，用e.target抓到<p>裡面的value，setCurrentMonth
+
+
+    // 方法二，判斷當前active跟點擊的月份差幾個tab，看增加/減少幾個月
 
   }
 
@@ -111,11 +116,11 @@ function Calendar() {
         {Array(3).fill(1).map((tab, i) => {
           return (
             <div key={i} className={`tab_container ${activeMonth === i? 'current_tab':''}`}
-            onClick={() => {
-
+            onClick={(e) => {
+              handleTabClick(e);
             }}
             >
-              <div className="date">
+            <div className="date">
                 {activeMonth === 0? (
                   <>
                   {i === 0? (
@@ -211,6 +216,103 @@ function Calendar() {
                 }
               </div>
               <p className="depart_info"></p>
+
+              {/* <div className="date">
+                {activeMonth === 0? (
+                  <>
+                  {i === 0? (
+                  <>
+                  <p className="year">{currentMonth[0]}&nbsp;</p>
+                  <p className="month">{currentMonth[1]}月</p>
+                  </>
+                  ): <></>}
+                  {i === 1? (
+                  <>
+                  <p className="year">
+                    {currentMonth[1] === 12 ? currentMonth[0] + 1 : currentMonth[0]}&nbsp;
+                  </p>
+                  <p className="month">
+                    {currentMonth[1] === 12 ? 1 : currentMonth[1] + 1}月
+                  </p>
+                  </>
+                  ): <></>}
+                  {i === 2? (
+                  <>
+                  <p className="year">
+                    {currentMonth[1] === 11 ? currentMonth[0] + 1 : currentMonth[0]}&nbsp;
+                  </p>
+                  <p className="month">
+                    {currentMonth[1] === 11 ? 1 : currentMonth[1] + 2}月
+                  </p>
+                  </>
+                  ): <></>}
+                  </>
+                  ) : <></>
+                }
+                {activeMonth === 1? (
+                  <>
+                  {i === 0? (
+                  <>
+                  <p className="year">
+                    {currentMonth[1] === 1 ? currentMonth[0] - 1 : currentMonth[0]}&nbsp;
+                  </p>
+                  <p className="month">
+                    {currentMonth[1] === 1 ? 12 : currentMonth[1] - 1}月
+                  </p>
+                  </>
+                  ): <></>}
+                  {i === 1? (
+                  <>
+                  <p className="year">{currentMonth[0]}&nbsp;</p>
+                  <p className="month">{currentMonth[1]}月</p>
+                  </>
+                  ): <></>}
+                  {i === 2? (
+                  <>
+                  <p className="year">
+                    {currentMonth[1] === 12 ? currentMonth[0] + 1 : currentMonth[0]}&nbsp;
+                  </p>
+                  <p className="month">
+                    {currentMonth[1] === 12 ? 1 : currentMonth[1] + 1}月
+                  </p>
+                  </>
+                  ): <></>}
+                  </>
+                  ) : <></>
+                }
+                {activeMonth === 2? (
+                    <>
+                    {i === 0? (
+                    <>
+                      <p className="year">
+                        {currentMonth[1] <= 2 ? currentMonth[0] - 1 : currentMonth[0]}&nbsp;
+                      </p>
+                      <p className="month">
+                        {currentMonth[1] <= 2 ? (currentMonth[1] === 2? 12: 11) : currentMonth[1] - 2}月
+                      </p>
+                    </>
+                    ): <></>}
+                    {i === 1? (
+                      <>
+                      <p className="year">{currentMonth[1] === 1 ? currentMonth[0] - 1 : currentMonth[0]}&nbsp;</p>
+                      <p className="month">{currentMonth[1] === 1 ? 12 : currentMonth[1] - 1}月</p>
+                      </>
+                      ): <></>}
+                    {i === 2? (
+                      <>
+                      <p className="year">
+                      {currentMonth[0]}&nbsp;
+                      </p>
+                      <p className="month">
+                      {currentMonth[1]}月
+                      </p>
+                      </>
+                    ): <></>}
+                    </>
+                  ):<></>
+                }
+              </div>
+              <p className="depart_info"></p> */}
             </div>
           )
         })}
