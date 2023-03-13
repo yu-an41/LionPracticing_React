@@ -27,15 +27,7 @@ function Calendar() {
   const monthRange = useMemo(() => getMonthRange(data1), []);
 
   // 星期依序排列
-  const daysOfWeek = [
-    "星期日",
-    "星期一",
-    "星期二",
-    "星期三",
-    "星期四",
-    "星期五",
-    "星期六",
-  ];
+  const daysOfWeek = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六",];
 
   // 當前月份（預設值是一進來的瀏覽月份aka最大月份的前一個月）
   const [currentMonth, setCurrentMonth] = useState(
@@ -50,6 +42,7 @@ function Calendar() {
     days: new Date(currentMonth[0], currentMonth[1], 0).getDate(), 
     firstDayOfWeek: firstDay.getDay(),
   })
+  console.log(firstDay, currentDays)
 
   // 反白（當天月份）位置
   const [activeMonth, setActiveMonth] = useState(1);
@@ -59,12 +52,12 @@ function Calendar() {
     monthRange.smallest.month === 1
     ? [monthRange.smallest.year - 1, 12]
     : [monthRange.smallest.year, monthRange.smallest.month - 1]);
-  console.log(smallestMonth);
+  // console.log(smallestMonth);
   const largestMonth = currentMonth === (
     currentMonth === (monthRange.largest.month === 1
     ? [monthRange.largest.year - 1, 12]
     : [monthRange.largest.year, monthRange.largest.month - 1]));
-    console.log(largestMonth);
+  console.log(currentMonth);
 
   // 左右箭頭功能（前後月）
   const getPrevMonth = () => {
@@ -137,36 +130,6 @@ function Calendar() {
             </div>
           )
         })}
-          {/* <div className={`tab_container ${activeMonth === 0? 'current_tab':''}`}>
-            <div className="date">
-              <p className="year">
-                {currentMonth[1] === 1 ? currentMonth[0] - 1 : currentMonth[0]}
-                &nbsp;
-              </p>
-              <p className="month">
-                {currentMonth[1] === 1 ? 12 : currentMonth[1] - 1}月
-              </p>
-            </div>
-            <p className="depart_info"></p>
-          </div>
-          <div className={`tab_container ${activeMonth === 1? 'current_tab':''}`}>
-            <div className="date">
-              <p className="year">{currentMonth[0]}&nbsp;</p>
-              <p className="month">{currentMonth[1]}月</p>
-            </div>
-          </div>
-          <div className={`tab_container ${activeMonth === 2? 'current_tab':''}`}>
-            <div className="date">
-              <p className="year">
-                {currentMonth[1] === 12 ? currentMonth[0] + 1 : currentMonth[0]}
-                &nbsp;
-              </p>
-              <p className="month">
-                {currentMonth[1] === 12 ? 1 : currentMonth[1] + 1}月
-              </p>
-            </div>
-            <p className="depart_info">無出發日</p>
-          </div> */}
         </div>
         <div className={`arrow next_month ${currentMonth === [monthRange.largest.year, monthRange.largest.month]? 'disabled':''}`}
           onClick={() => {
