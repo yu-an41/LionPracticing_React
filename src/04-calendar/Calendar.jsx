@@ -54,6 +54,18 @@ function Calendar() {
   // 反白（當天月份）位置
   const [activeMonth, setActiveMonth] = useState(1);
 
+  // 判斷當前月的前/後月是否為最小/最大月
+  const smallestMonth = currentMonth === (
+    monthRange.smallest.month === 1
+    ? [monthRange.smallest.year - 1, 12]
+    : [monthRange.smallest.year, monthRange.smallest.month - 1]);
+  console.log(smallestMonth);
+  const largestMonth = currentMonth === (
+    currentMonth === (monthRange.largest.month === 1
+    ? [monthRange.largest.year - 1, 12]
+    : [monthRange.largest.year, monthRange.largest.month - 1]));
+    console.log(largestMonth);
+
   // 左右箭頭功能（前後月）
   const getPrevMonth = () => {
     if (currentMonth[1] === 1) {
@@ -61,23 +73,71 @@ function Calendar() {
     } else {
       setCurrentMonth([currentMonth[0], currentMonth[1] - 1])
     }
-    setActiveMonth(0);
+    setActiveMonth(activeMonth === 0? 0 : activeMonth - 1);
   }
+
+  const getNextMonth = () => {
+    if (currentMonth === (monthRange.largest.month === 1
+      ? [monthRange.largest.year - 1, 12]
+      : [monthRange.largest.year, monthRange.largest.month - 1])) {
+        
+    } else { 
+      if (currentMonth[1] === 12) {
+        setCurrentMonth([currentMonth[0] + 1, 1])
+      } else {
+        setCurrentMonth([currentMonth[0], currentMonth[1] + 1])
+      }
+    }
+    setActiveMonth(activeMonth === 2? 2: activeMonth + 1)
+}
 
   return (
     <div className="calendar_container">
       <div className="top_container">
         <div className={`arrow prev_month ${currentMonth === [monthRange.smallest.year, monthRange.smallest.month]? 'disabled':''}`}
           onClick={()=> {
-            if (currentMonth === [monthRange.smallest.year, monthRange.smallest.month]) return
-            console.log([monthRange.smallest.year, monthRange.smallest.month])
-            getPrevMonth();
+            if (currentMonth !== [monthRange.smallest.year, monthRange.smallest.month]) getPrevMonth();
           }}
           >
           <i className="fa-solid fa-caret-left"></i>
         </div>
         <div className="monthly_tab">
-          <div className={`tab_container ${activeMonth === 0? 'current_tab':''}`}>
+        {Array(3).fill(1).map((tab, i) => {
+          return (
+            <div key={i} className={`tab_container ${activeMonth === i? 'current_tab':''}`}>
+              <div className="date">
+                {i === 0? (
+                  <>
+                  <p className="year">
+                    {currentMonth[1] === 1 ? currentMonth[0] - 1 : currentMonth[0]}&nbsp;
+                  </p>
+                  <p className="month">
+                    {currentMonth[1] === 1 ? 12 : currentMonth[1] - 1}月
+                  </p>
+                  </>
+                  ): ''}
+                  {i === 1? (
+                  <>
+                  <p className="year">{currentMonth[0]}&nbsp;</p>
+                  <p className="month">{currentMonth[1]}月</p>
+                  </>
+                  ): ''}
+                  {i === 2? (
+                  <>
+                  <p className="year">
+                    {currentMonth[1] === 12 ? currentMonth[0] + 1 : currentMonth[0]}&nbsp;
+                  </p>
+                  <p className="month">
+                    {currentMonth[1] === 12 ? 1 : currentMonth[1] + 1}月
+                  </p>
+                  </>
+                  ): ''}
+              </div>
+              <p className="depart_info"></p>
+            </div>
+          )
+        })}
+          {/* <div className={`tab_container ${activeMonth === 0? 'current_tab':''}`}>
             <div className="date">
               <p className="year">
                 {currentMonth[1] === 1 ? currentMonth[0] - 1 : currentMonth[0]}
@@ -106,9 +166,13 @@ function Calendar() {
               </p>
             </div>
             <p className="depart_info">無出發日</p>
-          </div>
+          </div> */}
         </div>
-        <div className="arrow next_month">
+        <div className={`arrow next_month ${currentMonth === [monthRange.largest.year, monthRange.largest.month]? 'disabled':''}`}
+          onClick={() => {
+            if (currentMonth !== [monthRange.largest.year, monthRange.largest.month]) getNextMonth();
+          }}
+        >
           <i className="fa-solid fa-caret-right"></i>
         </div>
       </div>
@@ -138,7 +202,7 @@ function Calendar() {
               .map((d, i) => {
                 return (
                   <div className="day date" key={i + 1}>
-                    <div className="day_tag">成團</div>
+                    {/* <div className="day_tag">成團</div>
                     <div className="day_top">
                       <p className="date_number">{i + 1}</p>
                       <div className="dot"></div>
@@ -151,7 +215,7 @@ function Calendar() {
                       <li className="day_details total_vacnacy">團位：20</li>
                       <li className="day_details price">
                         ${Intl.NumberFormat().format(76263)}
-                      </li>
+                      </li> */}
                       {/* 如果看更多就是只顯示這兩項 
                   <li className="details_flex">
                     <p className="day_details link">看更多團</p>
@@ -159,7 +223,7 @@ function Calendar() {
                   </li>
                   <li className="day_details price">${Intl.NumberFormat().format(76263)}<span>起</span></li>
                   */}
-                    </ul>
+                    {/* </ul> */}
                   </div>
                 );
               })
