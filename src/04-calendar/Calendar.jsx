@@ -1,8 +1,26 @@
 import React, { useState, useEffect, useMemo } from "react";
+
+// data
 import data1 from "./../data/calendar/data1.json";
+import data2 from "./../data/calendar/data2.json";
+import data3 from "./../data/calendar/data3.json";
+import data4 from "./../data/calendar/data4.json";
+
+// stylesheet
 import "./Calendar.scss";
 
 function Calendar() {
+  // 處理data（改keyName + 合併）
+  const new_data2 = data2.map(({certain, date, price, onsell, total, state}) => ({
+    guaranteed: certain,
+    date,
+    price,
+    availableVancancy: onsell,
+    totalVacnacy: total,
+    status: state, 
+  }))
+  const datas = data1.concat(new_data2, data3, data4);
+
   // 找到資料中的最大月份，用useMemo存起來
   const getMonthRange = (arr) => {
     // 把日期抓出來，轉成Date物件
