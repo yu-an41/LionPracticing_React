@@ -128,6 +128,7 @@ function Calendar() {
   const getCurrentDetails = (detail) => {
     const details = datas.filter((v, i) => v.date.includes(`${currentMonth[0]}/${currentMonth[1]}/`));
     setCurrentDetails(details);
+    console.log(details)
     return details;
   }
 
@@ -169,7 +170,7 @@ function Calendar() {
                     {currentMonth[1] === 12 ? currentMonth[0] + 1 : currentMonth[0]}&nbsp;
                   </p>
                   <p className="month">
-                    {currentMonth[1] === 12 ? 1 : currentMonth[1] + 1}月
+                    {currentMonth[1] >= 11 ? (currentMonth[1] === 11? 12: 1) : currentMonth[1] + 1}月
                   </p>
                   </>
                   ): <></>}
@@ -377,38 +378,49 @@ function Calendar() {
                 return <div className="day no_date" key={i}></div>;
               })
           }
-          {// 把本月天數白色格子跑出來
+          {// 把本月天數白色格子跑出來+有資料就帶入
             Array(currentDays.days)
               .fill(1)
-              .map((d, i) => {
-                return (
-                  <div className="day date" key={i + 1}>
-                    <div className="day_tag">成團</div>
-                    <div className="day_top">
-                      <p className="date_number">{i + 1}</p>
-                      <div className="dot"></div>
-                    </div>
-                    <ul className="day_bottom">
-                      <li className="day_details status available">預定</li>
-                      <li className="day_details available_vancancy">
-                        可賣：0
-                      </li>
-                      <li className="day_details total_vacnacy">團位：20</li>
-                      <li className="day_details price">
-                        ${Intl.NumberFormat().format(76263)}
-                      </li>
-                      {/* 如果看更多就是只顯示這兩項  */}
-                      {/* <li className="details_flex">
-                        <p className="day_details link">看更多團</p>
-                        <i className="day_details link fa-solid fa-caret-right"></i>
-                      </li>
-                      <li className="day_details price">${Intl.NumberFormat().format(76263)}<span>起</span>
-                      </li> */}
-                    </ul>
-                  </div>
-                );
-              })
+              .map((date, idx) => {
+                return currentDetails?.map((d, i) => {
+                  {/* 判斷「當筆資料日期=顯示出來的格子日期」？ */}
+                  const dateMatch = d.date.slice(-2) === (idx+1).toString().padStart(2, '0');
+                  return dateMatch? (
+                      <div className="day date" key={i + 1}>
+                      {dateMatch.guaranteed? <div className="day_tag">成團</div>: <></>}
+                      <div className="day_top">
+                        <p className="date_number">{i + 1}</p>
+                        <div className="dot"></div>
+                      </div>
+                      <ul className="day_bottom">
+                        <li className="day_details status available">{d.status}</li>
+                        <li className="day_details available_vancancy">
+                          可賣：{d.availableVancancy}
+                        </li>
+                        <li className="day_details total_vacnacy">團位：{d.totalVacnacy}</li>
+                        <li className="day_details price">
+                          ${Intl.NumberFormat().format(d.price)}
+                        </li>
+                        {/* 如果看更多就是只顯示這兩項  */}
+                        {/* <li className="details_flex">
+                          <p className="day_details link">看更多團</p>
+                          <i className="day_details link fa-solid fa-caret-right"></i>
+                        </li>
+                        <li className="day_details price">${Intl.NumberFormat().format(76263)}<span>起</span>
+                        </li> */}
+                      </ul>
+                      </div>
+                    ):(
+                      <div className="day date" key={i + 1}>
+                        <div className="day_top">
+                          <p className="date_number">{i + 1}</p>
+                        </div>
+                      </div>
+                    )
+                })}
+              )
           }
+          
         </div>
       </div>
     </div>
