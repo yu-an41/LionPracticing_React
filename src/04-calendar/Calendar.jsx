@@ -39,52 +39,63 @@ function Calendar() {
   // 當前月份共幾天、第一天最後一天分別是星期幾
   const firstDay = new Date(currentMonth[0], currentMonth[1]-1, 1);
   const [currentDays, setCurrentDays] = useState({
-    days: new Date(currentMonth[0], currentMonth[1], 0).getDate(), 
-    firstDayOfWeek: firstDay.getDay(),
-  })
-  // console.log(firstDay, currentDays)
+    days: 0,
+    firstDayOfWeek: 0,
+  });
+  const getCurrentDays = () => {
+    setCurrentDays({
+      days: new Date(currentMonth[0], currentMonth[1], 0).getDate(), 
+      firstDayOfWeek: firstDay.getDay(),
+    })
+  }
 
   // 反白（當天月份）位置
   const [activeMonth, setActiveMonth] = useState(1);
 
-  // 判斷當前月的前/後月是否為最小/最大月
-  const smallestMonth = currentMonth === (
+  // 判斷當前月的前/後月是否為最小/最大月（用來disable左右箭頭->先不處理）
+  const smallestMonth = JSON.stringify(currentMonth) === JSON.stringify(
     monthRange.smallest.month === 1
     ? [monthRange.smallest.year - 1, 12]
     : [monthRange.smallest.year, monthRange.smallest.month - 1]);
-  // console.log(smallestMonth);
-  const largestMonth = currentMonth === (
+
+  const largestMonth = JSON.stringify(currentMonth) === JSON.stringify(
     currentMonth === (monthRange.largest.month === 1
     ? [monthRange.largest.year - 1, 12]
     : [monthRange.largest.year, monthRange.largest.month - 1]));
-  // console.log(currentMonth);
 
   // 左右箭頭功能（前後月）
   const getPrevMonth = () => {
-    // 如果左邊tab為最小月，acitve才會移動
-    if ([currentMonth[1] === 1 ? currentMonth[0] - 1 : currentMonth[0], currentMonth[1] === 1 ? 12 : currentMonth[1] - 1] === [monthRange.smallest.year, monthRange.smallest.month]) {
-      // setActiveMonth(0);
-    } else {
-      
-    }
-    
+    // tab在中間時，currentMonth-1，顯示月份不變位置
     if (currentMonth[1] === 1) {
       setCurrentMonth([currentMonth[0] - 1, 12])
     } else {
       setCurrentMonth([currentMonth[0], currentMonth[1] - 1])
     }
+
+    // active不管在哪裡都往左移
     setActiveMonth(activeMonth === 0? 0 : activeMonth - 1);
   }
 
   const getNextMonth = () => {
-    // 如果右邊tab為最大月，acitve才會移動到最右邊
-    if (
-      JSON.stringify([currentMonth[1] === 12 ? currentMonth[0] + 1 : currentMonth[0], currentMonth[1] === 12 ? 1 : currentMonth[1] + 1]) === JSON.stringify([monthRange.largest.year, monthRange.largest.month])) {
-      setActiveMonth(2);
-      setCurrentMonth([currentMonth[1] === 12 ? currentMonth[0] + 1 : currentMonth[0], currentMonth[1] === 12 ? 1 : currentMonth[1] + 1]);
-    } 
+      // tab在中間時，currentMonth+1，顯示月份不變位置
+        if (currentMonth[1] === 12) {
+          setCurrentMonth([currentMonth[0] + 1, 1])
+        } else {
+          setCurrentMonth([currentMonth[0], currentMonth[1] + 1])
+        }
+
+      // active不管在哪裡都往右移
+      setActiveMonth(activeMonth ===2 ? 2: activeMonth + 1);
     }
 
+  // 點月份tab連動currentMonth跟active
+  const handleMonthTab = ()=> {
+
+  }
+
+  useEffect(() => {
+    getCurrentDays();
+  }, [currentMonth])
 
   return (
     <div className="calendar_container">
@@ -99,8 +110,45 @@ function Calendar() {
         <div className="monthly_tab">
         {Array(3).fill(1).map((tab, i) => {
           return (
-            <div key={i} className={`tab_container ${activeMonth === i? 'current_tab':''}`}>
+            <div key={i} className={`tab_container ${activeMonth === i? 'current_tab':''}`}
+            onClick={() => {
+
+            }}
+            >
               <div className="date">
+                {activeMonth === 0? (
+                  <>
+                  {i === 0? (
+                  <>
+                  <p className="year">{currentMonth[0]}&nbsp;</p>
+                  <p className="month">{currentMonth[1]}月</p>
+                  </>
+                  ): <></>}
+                  {i === 1? (
+                  <>
+                  <p className="year">
+                    {currentMonth[1] === 12 ? currentMonth[0] + 1 : currentMonth[0]}&nbsp;
+                  </p>
+                  <p className="month">
+                    {currentMonth[1] === 12 ? 1 : currentMonth[1] + 1}月
+                  </p>
+                  </>
+                  ): <></>}
+                  {i === 2? (
+                  <>
+                  <p className="year">
+                    {currentMonth[1] === 11 ? currentMonth[0] + 1 : currentMonth[0]}&nbsp;
+                  </p>
+                  <p className="month">
+                    {currentMonth[1] === 11 ? 1 : currentMonth[1] + 2}月
+                  </p>
+                  </>
+                  ): <></>}
+                  </>
+                  ) : <></>
+                }
+                {activeMonth === 1? (
+                  <>
                   {i === 0? (
                   <>
                   <p className="year">
@@ -110,13 +158,13 @@ function Calendar() {
                     {currentMonth[1] === 1 ? 12 : currentMonth[1] - 1}月
                   </p>
                   </>
-                  ): ''}
+                  ): <></>}
                   {i === 1? (
                   <>
                   <p className="year">{currentMonth[0]}&nbsp;</p>
                   <p className="month">{currentMonth[1]}月</p>
                   </>
-                  ): ''}
+                  ): <></>}
                   {i === 2? (
                   <>
                   <p className="year">
@@ -126,16 +174,50 @@ function Calendar() {
                     {currentMonth[1] === 12 ? 1 : currentMonth[1] + 1}月
                   </p>
                   </>
-                  ): ''}
+                  ): <></>}
+                  </>
+                  ) : <></>
+                }
+                {activeMonth === 2? (
+                    <>
+                    {i === 0? (
+                    <>
+                      <p className="year">
+                        {currentMonth[1] <= 2 ? currentMonth[0] - 1 : currentMonth[0]}&nbsp;
+                      </p>
+                      <p className="month">
+                        {currentMonth[1] <= 2 ? (currentMonth[1] === 2? 12: 11) : currentMonth[1] - 2}月
+                      </p>
+                    </>
+                    ): <></>}
+                    {i === 1? (
+                      <>
+                      <p className="year">{currentMonth[1] === 1 ? currentMonth[0] - 1 : currentMonth[0]}&nbsp;</p>
+                      <p className="month">{currentMonth[1] === 1 ? 12 : currentMonth[1] - 1}月</p>
+                      </>
+                      ): <></>}
+                    {i === 2? (
+                      <>
+                      <p className="year">
+                      {currentMonth[0]}&nbsp;
+                      </p>
+                      <p className="month">
+                      {currentMonth[1]}月
+                      </p>
+                      </>
+                    ): <></>}
+                    </>
+                  ):<></>
+                }
               </div>
               <p className="depart_info"></p>
             </div>
           )
         })}
         </div>
-        <div className={`arrow next_month ${activeMonth === 2? 'disabled':''}`}
+        <div className={`arrow next_month ${currentMonth === [monthRange.largest.year, monthRange.largest.month]? 'disabled':''}`}
           onClick={() => {
-            if (currentMonth !== [monthRange.largest.year, monthRange.largest.month]) getNextMonth();
+            getNextMonth();
           }}
         >
           <i className="fa-solid fa-caret-right"></i>
@@ -179,13 +261,13 @@ function Calendar() {
                       <li className="day_details price">
                         ${Intl.NumberFormat().format(76263)}
                       </li> */}
-                      {/* 如果看更多就是只顯示這兩項 
-                  <li className="details_flex">
-                    <p className="day_details link">看更多團</p>
-                    <i className="day_details link fa-solid fa-caret-right"></i>
-                  </li>
-                  <li className="day_details price">${Intl.NumberFormat().format(76263)}<span>起</span></li>
-                  */}
+                      {/* 如果看更多就是只顯示這兩項  */}
+                      {/* <li className="details_flex">
+                        <p className="day_details link">看更多團</p>
+                        <i className="day_details link fa-solid fa-caret-right"></i>
+                      </li>
+                      <li className="day_details price">${Intl.NumberFormat().format(76263)}<span>起</span>
+                      </li> */}
                     {/* </ul> */}
                   </div>
                 );
