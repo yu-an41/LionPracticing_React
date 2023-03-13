@@ -42,7 +42,7 @@ function Calendar() {
     };
     return months;
   };
-  const monthRange = useMemo(() => getMonthRange(data1), []);
+  const monthRange = useMemo(() => getMonthRange(datas), []);
 
   // 星期依序排列
   const daysOfWeek = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六",];
@@ -116,8 +116,24 @@ function Calendar() {
 
   }
 
+  // 抓當前月份的資料
+  const [currentDetails, setCurrentDetails] = useState([{
+      "guaranteed": false,
+      "date": "0000/00/00",
+      "price": 0,
+      "availableVancancy": 0,
+      "totalVacnacy": 0,
+      "status": "預定"
+  }])
+  const getCurrentDetails = (detail) => {
+    const details = datas.filter((v, i) => v.date.includes(`${currentMonth[0]}/${currentMonth[1]}/`));
+    setCurrentDetails(details);
+    return details;
+  }
+
   useEffect(() => {
     getCurrentDays();
+    getCurrentDetails();
   }, [currentMonth])
 
   return (
@@ -367,7 +383,7 @@ function Calendar() {
               .map((d, i) => {
                 return (
                   <div className="day date" key={i + 1}>
-                    {/* <div className="day_tag">成團</div>
+                    <div className="day_tag">成團</div>
                     <div className="day_top">
                       <p className="date_number">{i + 1}</p>
                       <div className="dot"></div>
@@ -380,7 +396,7 @@ function Calendar() {
                       <li className="day_details total_vacnacy">團位：20</li>
                       <li className="day_details price">
                         ${Intl.NumberFormat().format(76263)}
-                      </li> */}
+                      </li>
                       {/* 如果看更多就是只顯示這兩項  */}
                       {/* <li className="details_flex">
                         <p className="day_details link">看更多團</p>
@@ -388,7 +404,7 @@ function Calendar() {
                       </li>
                       <li className="day_details price">${Intl.NumberFormat().format(76263)}<span>起</span>
                       </li> */}
-                    {/* </ul> */}
+                    </ul>
                   </div>
                 );
               })
