@@ -47,12 +47,33 @@ function Calendar() {
   // 星期依序排列
   const daysOfWeek = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六",];
 
+  // 反白（當天月份）位置
+  const [activeMonth, setActiveMonth] = useState(1);
+
+  // 顯示的三個月份以及當前月份
+  const [currentMonthIdx, setCurrentMonthIdx] = useState(1);
+  const [shownMonths, setShownMonths] = useState([
+    {
+      year: 0,
+      month:0,
+    },
+    monthRange.largest.month === 1?
+    {
+      year: monthRange.largest.year - 1,
+      month: 12
+    }
+    :{
+      year: monthRange.largest.year,
+      month:monthRange.largest.month - 1,
+    },
+    {
+      year: 0,
+      month:0,
+    }
+  ]);
+
   // 當前月份（預設值是一進來的瀏覽月份aka資料中最大月份的前一個月）
-  const [currentMonth, setCurrentMonth] = useState(
-    monthRange.largest.month === 1
-      ? [monthRange.largest.year - 1, 12]
-      : [monthRange.largest.year, monthRange.largest.month - 1]
-  );
+  const [currentMonth, setCurrentMonth] = useState([shownMonths[currentMonthIdx].year, shownMonths[currentMonthIdx].month]);
 
   // 當前月份共幾天、第一天最後一天分別是星期幾
   const firstDay = new Date(currentMonth[0], currentMonth[1]-1, 1);
@@ -66,20 +87,6 @@ function Calendar() {
       firstDayOfWeek: firstDay.getDay(),
     })
   }
-
-  // 反白（當天月份）位置
-  const [activeMonth, setActiveMonth] = useState(1);
-
-  // 判斷當前月的前/後月是否為最小/最大月（用來disable左右箭頭->先不處理）
-  const smallestMonth = JSON.stringify(currentMonth) === JSON.stringify(
-    monthRange.smallest.month === 1
-    ? [monthRange.smallest.year - 1, 12]
-    : [monthRange.smallest.year, monthRange.smallest.month - 1]);
-
-  const largestMonth = JSON.stringify(currentMonth) === JSON.stringify(
-    currentMonth === (monthRange.largest.month === 1
-    ? [monthRange.largest.year - 1, 12]
-    : [monthRange.largest.year, monthRange.largest.month - 1]));
 
   // 左右箭頭功能（前後月）
   const getPrevMonth = () => {
@@ -150,7 +157,6 @@ function Calendar() {
   // 當天資料有多筆的話找最小值（把當天資料傳進來）
   const getLowestPrice = (d) => {
     d.sort((a, b) => a.price - b.price);
-    console.log(d[0].price);
     return d[0].price;
   }
 
@@ -322,7 +328,9 @@ function Calendar() {
                         <div className="dot"></div>
                       </div>
                       <ul className="day_bottom">
-                        <li className="day_details status available">{result[0].status}</li>
+                        <li className={`day_details status ${(result[0].status === '報名' || result[0].status === '候補' || result[0].status === '預定')? 'available': 'unavailable'}`}>
+                          {result[0].status}
+                        </li>
                         <li className="day_details available_vancancy">
                           可賣：{result[0].availableVancancy}
                         </li>
