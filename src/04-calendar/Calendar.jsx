@@ -65,7 +65,7 @@ function Calendar() {
         }
     :{
       year: monthRange.largest.year,
-      month: monthRange.largest.month - 1,
+      month: monthRange.largest.month - 2,
     },
     monthRange.largest.month === 1?
     {
@@ -100,32 +100,58 @@ function Calendar() {
 
   // 左右箭頭功能（前後月）
   const getPrevMonth = () => {
-    // tab在中間時，currentMonth-1，顯示月份不變位置
-    if (currentMonth[1] === 1) {
-      setCurrentMonth([currentMonth[0] - 1, 12])
-    } else {
-      setCurrentMonth([currentMonth[0], currentMonth[1] - 1])
+    // 如果tab在左邊，shownMonths往前長
+    if (currentMonthIdx === 0) {
+      const newMonth = 
+      shownMonths[0].month === 1?
+      {
+        year: currentMonth[0] - 1,
+        month: 12,
+      }
+      :{
+        year: currentMonth[0],
+        month: currentMonth[1] - 1,
+      };
+      console.log(newMonth);
+      const months = shownMonths;
+      months.pop();
+      months.unshift(newMonth);
+      console.log(months);
+      // setShownMonths(months);
     }
-
-    // active不管在哪裡都往左移
-    setActiveMonth(activeMonth === 0? 0 : activeMonth - 1);
+    // currentMonthIdx - 1
+    console.log('moved to prev month')
+    setCurrentMonthIdx(currentMonthIdx === 0? 0: currentMonthIdx - 1);
+    setCurrentMonth([shownMonths[currentMonthIdx].year, shownMonths[currentMonthIdx].month]);
   }
 
   const getNextMonth = () => {
-      // tab在中間時，currentMonth+1，顯示月份不變位置
-        if (currentMonth[1] === 12) {
-          setCurrentMonth([currentMonth[0] + 1, 1])
-        } else {
-          setCurrentMonth([currentMonth[0], currentMonth[1] + 1])
-        }
-
-      // active不管在哪裡都往右移
-      setActiveMonth(activeMonth ===2 ? 2: activeMonth + 1);
+    // 如果tab在右邊，shownMonths往後長
+    if (currentMonthIdx === 2) {
+      const newMonth = 
+      shownMonths[2].month === 12?
+      {
+        year: currentMonth[0] + 1,
+        month: 1,
+      }
+      :{
+        year: currentMonth[0],
+        month: currentMonth[1] + 1,
+      };
+      const months = shownMonths;
+      months.shift();
+      months.push(newMonth);
+      console.log(months);
+      setShownMonths(months);
+    }
+    // currentMonthIdx + 1
+    setCurrentMonthIdx(currentMonthIdx === 2? 2: currentMonthIdx + 1);
+    setCurrentMonth([shownMonths[currentMonthIdx].year, shownMonths[currentMonthIdx].month]);
     }
 
-  // 點月份tab連動currentMonth跟active
+  // 點月份tab切換currentMonth
   const handleTabClick = (e)=> {
-    console.log(e.currentTarget)
+    // console.log(e.currentTarget)
     // 方法一，用e.target抓到<p>裡面的value，setCurrentMonth
 
 
@@ -133,12 +159,15 @@ function Calendar() {
 
   }
 
-  // 判斷某個月份有沒有資料（不能只判斷當月）
-  const noDetails = () => {
-
+  // 判斷某個月份有沒有資料
+  const hasDetails = (idx) => {
+    const result = datas.filter((v) => { 
+      return v.date.includes(`${shownMonths[idx]?.year}/${shownMonths[idx]?.month}`)
+    })
+    return (result.length !== 0);
   }
 
-  // 抓當前月份的資料
+  // 抓當前月份的資料、判斷三個月有沒有資料
   const [currentDetails, setCurrentDetails] = useState([{
       "guaranteed": false,
       "date": "0000/00/00",
@@ -147,8 +176,8 @@ function Calendar() {
       "totalVacnacy": 0,
       "status": "預定"
   }])
-  const getCurrentDetails = (detail) => {
-    let details = datas.filter((v, i) => v.date.includes(`${currentMonth[0]}/${currentMonth[1]}/`));
+  const getCurrentDetails = (idx1 = currentMonth[0], idx2 = currentMonth[1]) => {
+    let details = datas.filter((v, i) => v.date.includes(`${idx1}/${idx2}/`));
     // 依照日期由小到大排序
     details.sort((a, b) => {
       const dayA = new Date(a.date).getTime();
@@ -186,115 +215,24 @@ function Calendar() {
           <i className="fa-solid fa-caret-left"></i>
         </div>
         <div className="monthly_tab">
-        {Array(3).fill(1).map((tab, i) => {
+        {shownMonths.map((m, i) => {
           return (
             <div key={i} className={`tab_container ${currentMonthIdx === i? 'current_tab':''}`}
             onClick={(e) => {
               handleTabClick(e);
-            }}
-            >
-            <div className="date">
-                {activeMonth === 0? (
-                  <>
-                  {i === 0? (
-                  <>
-                  <p className="year">{currentMonth[0]}&nbsp;</p>
-                  <p className="month">{currentMonth[1]}月</p>
-                  </>
-                  ): <></>}
-                  {i === 1? (
-                  <>
-                  <p className="year">
-                    {currentMonth[1] === 12 ? currentMonth[0] + 1 : currentMonth[0]}&nbsp;
-                  </p>
-                  <p className="month">
-                    {currentMonth[1] >= 11 ? (currentMonth[1] === 11? 12: 1) : currentMonth[1] + 1}月
-                  </p>
-                  </>
-                  ): <></>}
-                  {i === 2? (
-                  <>
-                  <p className="year">
-                    {currentMonth[1] >= 11 ? currentMonth[0] + 1 : currentMonth[0]}&nbsp;
-                  </p>
-                  <p className="month">
-                    {currentMonth[1] === 11 ? 1 : currentMonth[1] + 2}月
-                  </p>
-                  </>
-                  ): <></>}
-                  </>
-                  ) : <></>
-                }
-                {activeMonth === 1? (
-                  <>
-                  {i === 0? (
-                  <>
-                  <p className="year">
-                    {currentMonth[1] === 1 ? currentMonth[0] - 1 : currentMonth[0]}&nbsp;
-                  </p>
-                  <p className="month">
-                    {currentMonth[1] === 1 ? 12 : currentMonth[1] - 1}月
-                  </p>
-                  </>
-                  ): <></>}
-                  {i === 1? (
-                  <>
-                  <p className="year">{currentMonth[0]}&nbsp;</p>
-                  <p className="month">{currentMonth[1]}月</p>
-                  </>
-                  ): <></>}
-                  {i === 2? (
-                  <>
-                  <p className="year">
-                    {currentMonth[1] === 12 ? currentMonth[0] + 1 : currentMonth[0]}&nbsp;
-                  </p>
-                  <p className="month">
-                    {currentMonth[1] === 12 ? 1 : currentMonth[1] + 1}月
-                  </p>
-                  </>
-                  ): <></>}
-                  </>
-                  ) : <></>
-                }
-                {activeMonth === 2? (
-                    <>
-                    {i === 0? (
-                    <>
-                      <p className="year">
-                        {currentMonth[1] <= 2 ? currentMonth[0] - 1 : currentMonth[0]}&nbsp;
-                      </p>
-                      <p className="month">
-                        {currentMonth[1] <= 2 ? (currentMonth[1] === 2? 12: 11) : currentMonth[1] - 2}月
-                      </p>
-                    </>
-                    ): <></>}
-                    {i === 1? (
-                      <>
-                      <p className="year">{currentMonth[1] === 1 ? currentMonth[0] - 1 : currentMonth[0]}&nbsp;</p>
-                      <p className="month">{currentMonth[1] === 1 ? 12 : currentMonth[1] - 1}月</p>
-                      </>
-                      ): <></>}
-                    {i === 2? (
-                      <>
-                      <p className="year">
-                      {currentMonth[0]}&nbsp;
-                      </p>
-                      <p className="month">
-                      {currentMonth[1]}月
-                      </p>
-                      </>
-                    ): <></>}
-                    </>
-                  ):<></>
-                }
-            </div>
-            {currentDetails.length === 0? (
-              <>{/* <p className="depart_info">無出團日</p> */}</>
-            ):<></>}
+            }}>
+              <div className="date">
+                <p className="year">{m?.year}&nbsp;</p>
+                <p className="month">{m?.month}月</p>
+              </div>
+              {hasDetails(i)? 
+              <></>: (
+                <p  className="depart_info">無出團日</p>
+              )
+              }
             </div>
           )
-        })}
-        {}
+        }) }
         </div>
         <div className={`arrow next_month`}
           onClick={() => {
