@@ -47,7 +47,7 @@ function Calendar() {
   // 星期依序排列
   const daysOfWeek = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六",];
 
-  // 當前月份（預設值是一進來的瀏覽月份aka最大月份的前一個月）
+  // 當前月份（預設值是一進來的瀏覽月份aka資料中最大月份的前一個月）
   const [currentMonth, setCurrentMonth] = useState(
     monthRange.largest.month === 1
       ? [monthRange.largest.year - 1, 12]
@@ -126,9 +126,15 @@ function Calendar() {
       "status": "預定"
   }])
   const getCurrentDetails = (detail) => {
-    const details = datas.filter((v, i) => v.date.includes(`${currentMonth[0]}/${currentMonth[1]}/`));
+    let details = datas.filter((v, i) => v.date.includes(`${currentMonth[0]}/${currentMonth[1]}/`));
+    // 依照日期由小到大排序
+    details.sort((a, b) => {
+      const dayA = new Date(a.date);
+      const dayB = new Date(b.date);
+      console.log(dayA.getDate() - dayB.getDate())
+      return dayA.getDate() - dayB.getDate();
+    })
     setCurrentDetails(details);
-    console.log(details)
     return details;
   }
 
@@ -177,7 +183,7 @@ function Calendar() {
                   {i === 2? (
                   <>
                   <p className="year">
-                    {currentMonth[1] === 11 ? currentMonth[0] + 1 : currentMonth[0]}&nbsp;
+                    {currentMonth[1] >= 11 ? currentMonth[0] + 1 : currentMonth[0]}&nbsp;
                   </p>
                   <p className="month">
                     {currentMonth[1] === 11 ? 1 : currentMonth[1] + 2}月
@@ -385,6 +391,11 @@ function Calendar() {
                 return currentDetails?.map((d, i) => {
                   {/* 判斷「當筆資料日期=顯示出來的格子日期」？ */}
                   const dateMatch = d.date.slice(-2) === (idx+1).toString().padStart(2, '0');
+                  {/* 判斷當天是否不只一筆資料 */}
+                  const mutipleDetails = currentDetails.filter((details, index)=> {
+                    return details.date.includes(`${currentMonth[0]}/${currentMonth[1]}/${(idx+1).toString().padStart(2, '0')}`)
+                  })
+                  // console.log(mutipleDetails);
                   return dateMatch? (
                       <div className="day date" key={i + 1}>
                       {dateMatch.guaranteed? <div className="day_tag">成團</div>: <></>}
@@ -412,9 +423,8 @@ function Calendar() {
                       </div>
                     ):(
                       <div className="day date" key={i + 1}>
-                        <div className="day_top">
-                          <p className="date_number">{i + 1}</p>
-                        </div>
+                        <div className="day_top"></div>
+                        <ul className="day_bottom"></ul>
                       </div>
                     )
                 })}
