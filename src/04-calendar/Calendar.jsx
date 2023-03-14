@@ -53,9 +53,19 @@ function Calendar() {
   // 顯示的三個月份以及當前月份
   const [currentMonthIdx, setCurrentMonthIdx] = useState(1);
   const [shownMonths, setShownMonths] = useState([
-    {
-      year: 0,
-      month:0,
+    monthRange.largest.month <= 2?
+      monthRange.largest.month === 1?
+        {
+          year: monthRange.largest.year - 1,
+          month: 11,
+        }
+        :{
+          year: monthRange.largest.year - 1,
+          month: 12,
+        }
+    :{
+      year: monthRange.largest.year,
+      month: monthRange.largest.month - 1,
     },
     monthRange.largest.month === 1?
     {
@@ -67,8 +77,8 @@ function Calendar() {
       month:monthRange.largest.month - 1,
     },
     {
-      year: 0,
-      month:0,
+      year: monthRange.largest.year,
+      month: monthRange.largest.month,
     }
   ]);
 
@@ -168,7 +178,7 @@ function Calendar() {
   return (
     <div className="calendar_container">
       <div className="top_container">
-        <div className={`arrow prev_month ${currentMonth === [monthRange.smallest.year, monthRange.smallest.month]? 'disabled':''}`}
+        <div className={`arrow prev_month`}
           onClick={()=> {
             if (currentMonth !== [monthRange.smallest.year, monthRange.smallest.month]) getPrevMonth();
           }}
@@ -178,7 +188,7 @@ function Calendar() {
         <div className="monthly_tab">
         {Array(3).fill(1).map((tab, i) => {
           return (
-            <div key={i} className={`tab_container ${activeMonth === i? 'current_tab':''}`}
+            <div key={i} className={`tab_container ${currentMonthIdx === i? 'current_tab':''}`}
             onClick={(e) => {
               handleTabClick(e);
             }}
@@ -279,13 +289,14 @@ function Calendar() {
                 }
             </div>
             {currentDetails.length === 0? (
-              <p className="depart_info">無出團日</p>
+              <>{/* <p className="depart_info">無出團日</p> */}</>
             ):<></>}
             </div>
           )
         })}
+        {}
         </div>
-        <div className={`arrow next_month ${currentMonth === [monthRange.largest.year, monthRange.largest.month]? 'disabled':''}`}
+        <div className={`arrow next_month`}
           onClick={() => {
             getNextMonth();
           }}
