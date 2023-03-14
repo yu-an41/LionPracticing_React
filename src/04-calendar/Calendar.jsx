@@ -129,10 +129,9 @@ function Calendar() {
     let details = datas.filter((v, i) => v.date.includes(`${currentMonth[0]}/${currentMonth[1]}/`));
     // 依照日期由小到大排序
     details.sort((a, b) => {
-      const dayA = new Date(a.date);
-      const dayB = new Date(b.date);
-      console.log(dayA.getDate() - dayB.getDate())
-      return dayA.getDate() - dayB.getDate();
+      const dayA = new Date(a.date).getTime();
+      const dayB = new Date(b.date).getTime();
+      return dayA - dayB;
     })
     setCurrentDetails(details);
     return details;
@@ -395,7 +394,6 @@ function Calendar() {
                   const mutipleDetails = currentDetails.filter((details, index)=> {
                     return details.date.includes(`${currentMonth[0]}/${currentMonth[1]}/${(idx+1).toString().padStart(2, '0')}`)
                   })
-                  // console.log(mutipleDetails);
                   return dateMatch? (
                       <div className="day date" key={i + 1}>
                       {dateMatch.guaranteed? <div className="day_tag">成團</div>: <></>}
