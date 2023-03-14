@@ -116,6 +116,11 @@ function Calendar() {
 
   }
 
+  // 判斷某個月份有沒有資料（不能只判斷當月）
+  const noDetails = () => {
+
+  }
+
   // 抓當前月份的資料
   const [currentDetails, setCurrentDetails] = useState([{
       "guaranteed": false,
@@ -135,6 +140,18 @@ function Calendar() {
     })
     setCurrentDetails(details);
     return details;
+  }
+
+  // 抓當天的資料
+  const getDateDetails = (arr, day) => {
+    const dateDetail =  arr.filter((d) => d.date.slice(-2) === day.toString().padStart(2, '0'))
+    return dateDetail;
+  }
+  // 當天資料有多筆的話找最小值（把當天資料傳進來）
+  const getLowestPrice = (d) => {
+    d.sort((a, b) => a.price - b.price);
+    console.log(d[0].price);
+    return d[0].price;
   }
 
   useEffect(() => {
@@ -254,105 +271,10 @@ function Calendar() {
                     </>
                   ):<></>
                 }
-              </div>
-              <p className="depart_info"></p>
-
-              {/* <div className="date">
-                {activeMonth === 0? (
-                  <>
-                  {i === 0? (
-                  <>
-                  <p className="year">{currentMonth[0]}&nbsp;</p>
-                  <p className="month">{currentMonth[1]}月</p>
-                  </>
-                  ): <></>}
-                  {i === 1? (
-                  <>
-                  <p className="year">
-                    {currentMonth[1] === 12 ? currentMonth[0] + 1 : currentMonth[0]}&nbsp;
-                  </p>
-                  <p className="month">
-                    {currentMonth[1] === 12 ? 1 : currentMonth[1] + 1}月
-                  </p>
-                  </>
-                  ): <></>}
-                  {i === 2? (
-                  <>
-                  <p className="year">
-                    {currentMonth[1] === 11 ? currentMonth[0] + 1 : currentMonth[0]}&nbsp;
-                  </p>
-                  <p className="month">
-                    {currentMonth[1] === 11 ? 1 : currentMonth[1] + 2}月
-                  </p>
-                  </>
-                  ): <></>}
-                  </>
-                  ) : <></>
-                }
-                {activeMonth === 1? (
-                  <>
-                  {i === 0? (
-                  <>
-                  <p className="year">
-                    {currentMonth[1] === 1 ? currentMonth[0] - 1 : currentMonth[0]}&nbsp;
-                  </p>
-                  <p className="month">
-                    {currentMonth[1] === 1 ? 12 : currentMonth[1] - 1}月
-                  </p>
-                  </>
-                  ): <></>}
-                  {i === 1? (
-                  <>
-                  <p className="year">{currentMonth[0]}&nbsp;</p>
-                  <p className="month">{currentMonth[1]}月</p>
-                  </>
-                  ): <></>}
-                  {i === 2? (
-                  <>
-                  <p className="year">
-                    {currentMonth[1] === 12 ? currentMonth[0] + 1 : currentMonth[0]}&nbsp;
-                  </p>
-                  <p className="month">
-                    {currentMonth[1] === 12 ? 1 : currentMonth[1] + 1}月
-                  </p>
-                  </>
-                  ): <></>}
-                  </>
-                  ) : <></>
-                }
-                {activeMonth === 2? (
-                    <>
-                    {i === 0? (
-                    <>
-                      <p className="year">
-                        {currentMonth[1] <= 2 ? currentMonth[0] - 1 : currentMonth[0]}&nbsp;
-                      </p>
-                      <p className="month">
-                        {currentMonth[1] <= 2 ? (currentMonth[1] === 2? 12: 11) : currentMonth[1] - 2}月
-                      </p>
-                    </>
-                    ): <></>}
-                    {i === 1? (
-                      <>
-                      <p className="year">{currentMonth[1] === 1 ? currentMonth[0] - 1 : currentMonth[0]}&nbsp;</p>
-                      <p className="month">{currentMonth[1] === 1 ? 12 : currentMonth[1] - 1}月</p>
-                      </>
-                      ): <></>}
-                    {i === 2? (
-                      <>
-                      <p className="year">
-                      {currentMonth[0]}&nbsp;
-                      </p>
-                      <p className="month">
-                      {currentMonth[1]}月
-                      </p>
-                      </>
-                    ): <></>}
-                    </>
-                  ):<></>
-                }
-              </div>
-              <p className="depart_info"></p> */}
+            </div>
+            {currentDetails.length === 0? (
+              <p className="depart_info">無出團日</p>
+            ):<></>}
             </div>
           )
         })}
@@ -386,49 +308,57 @@ function Calendar() {
           {// 把本月天數白色格子跑出來+有資料就帶入
             Array(currentDays.days)
               .fill(1)
-              .map((date, idx) => {
-                return currentDetails?.map((d, i) => {
-                  {/* 判斷「當筆資料日期=顯示出來的格子日期」？ */}
-                  const dateMatch = d.date.slice(-2) === (idx+1).toString().padStart(2, '0');
-                  {/* 判斷當天是否不只一筆資料 */}
-                  const mutipleDetails = currentDetails.filter((details, index)=> {
-                    return details.date.includes(`${currentMonth[0]}/${currentMonth[1]}/${(idx+1).toString().padStart(2, '0')}`)
-                  })
-                  return dateMatch? (
-                      <div className="day date" key={i + 1}>
-                      {dateMatch.guaranteed? <div className="day_tag">成團</div>: <></>}
+              .map((d, idx) => {
+                const result = getDateDetails(currentDetails, idx+1);
+                return result.length !== 0? (
+                  result.length === 1? (
+                    <div className="day date" key={idx + 1}>
+                      {/* 只有一筆資料時 */}
                       <div className="day_top">
-                        <p className="date_number">{i + 1}</p>
+                        {result[0].guaranteed? (
+                          <div className="day_tag">成團</div>
+                        ) : <></>}
+                        <p className="date_number">{idx + 1}</p>
                         <div className="dot"></div>
                       </div>
                       <ul className="day_bottom">
-                        <li className="day_details status available">{d.status}</li>
+                        <li className="day_details status available">{result[0].status}</li>
                         <li className="day_details available_vancancy">
-                          可賣：{d.availableVancancy}
+                          可賣：{result[0].availableVancancy}
                         </li>
-                        <li className="day_details total_vacnacy">團位：{d.totalVacnacy}</li>
+                        <li className="day_details total_vacnacy">團位：{result[0].totalVacnacy}</li>
                         <li className="day_details price">
-                          ${Intl.NumberFormat().format(d.price)}
+                            ${Intl.NumberFormat().format(result[0].price)}
                         </li>
-                        {/* 如果看更多就是只顯示這兩項  */}
-                        {/* <li className="details_flex">
-                          <p className="day_details link">看更多團</p>
-                          <i className="day_details link fa-solid fa-caret-right"></i>
-                        </li>
-                        <li className="day_details price">${Intl.NumberFormat().format(76263)}<span>起</span>
-                        </li> */}
                       </ul>
+                    </div>
+                  ) :(
+                    <div className="day date" key={idx + 1}>
+                      {/* 不只一筆資料時 */}
+                      <div className="day_top">
+                        <p className="date_number">{idx + 1}</p>
                       </div>
-                    ):(
-                      <div className="day date" key={i + 1}>
-                        <div className="day_top"></div>
-                        <ul className="day_bottom"></ul>
+                      <ul className="day_bottom">
+                        <li className="details_flex">
+                            <p className="day_details link">看更多團</p>
+                            <i className="day_details link fa-solid fa-caret-right"></i>
+                        </li>
+                        <li className="day_details price">${Intl.NumberFormat().format(getLowestPrice(result))}<span>&nbsp;起</span>
+                        </li>
+                      </ul>
+                    </div>
+                  )
+                ) : (
+                  <div className="day date" key={idx + 1}>
+                      <div className="day_top">
+                        <p className="date_number">{idx + 1}</p>
                       </div>
-                    )
-                })}
-              )
+                      <ul className="day_bottom"></ul>
+                  </div>
+                )
+              }
+            )
           }
-          
         </div>
       </div>
     </div>

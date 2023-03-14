@@ -137,6 +137,7 @@ $border: 1px solid rgba(150, 150, 150, 0.1);
                 }
 
                 .day_bottom {
+                    height: calc(100% - 20px);
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
@@ -160,6 +161,17 @@ $border: 1px solid rgba(150, 150, 150, 0.1);
 
                     .price {
                         color: $textRed;
+                    }
+
+                    .details_flex {
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-between;
+                        padding-right: 3px;
+                    }
+
+                    .day_details.link {
+                        color: rgb(22, 175, 202);
                     }
                 }
             }
