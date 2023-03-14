@@ -67,8 +67,16 @@ $border: 1px solid rgba(150, 150, 150, 0.1);
                 }
             }
 
+            .tab_container:hover {
+                cursor: pointer;
+            }
+
             .current_tab {
                 background-color: #fff;
+                color: $textRed;
+            }
+
+            .current_tab .date p {
                 color: $textRed;
             }
         }

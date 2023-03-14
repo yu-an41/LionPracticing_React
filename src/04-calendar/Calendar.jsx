@@ -20,7 +20,7 @@ function Calendar() {
     status: state, 
   }))
   const datas = data1.concat(new_data2, data3, data4);
-  console.log(datas);
+  // console.log(datas);
 
   // 找到資料中的最大月份，用useMemo存起來
   const getMonthRange = (arr) => {
@@ -167,7 +167,7 @@ function Calendar() {
     return (result.length !== 0);
   }
 
-  // 抓當前月份的資料、判斷三個月有沒有資料
+  // 抓當前月份的資料
   const [currentDetails, setCurrentDetails] = useState([{
       "guaranteed": false,
       "date": "0000/00/00",
@@ -176,14 +176,20 @@ function Calendar() {
       "totalVacnacy": 0,
       "status": "預定"
   }])
-  const getCurrentDetails = (idx1 = currentMonth[0], idx2 = currentMonth[1]) => {
-    let details = datas.filter((v, i) => v.date.includes(`${idx1}/${idx2}/`));
+  const getCurrentDetails = (idx1, idx2) => {
+    // console.log(currentMonth[0], currentMonth[1])
+    const details = datas.filter((v, i) => {
+      // return v.date.includes(`2018/09`);
+      return v.date.includes(`${idx1}/${idx2}`);
+    });
+
     // 依照日期由小到大排序
     details.sort((a, b) => {
       const dayA = new Date(a.date).getTime();
       const dayB = new Date(b.date).getTime();
       return dayA - dayB;
     })
+    // console.log(details);
     setCurrentDetails(details);
     return details;
   }
@@ -201,7 +207,7 @@ function Calendar() {
 
   useEffect(() => {
     getCurrentDays();
-    getCurrentDetails();
+    getCurrentDetails(currentMonth[0], currentMonth[1]);
   }, [currentMonth])
 
   useEffect(() => {
@@ -317,9 +323,9 @@ function Calendar() {
                       <ul className="day_bottom"></ul>
                   </div>
                 )
-              }
-            )
-          }
+                }
+              )
+            }
         </div>
       </div>
     </div>
