@@ -20,6 +20,7 @@ function Calendar() {
     status: state, 
   }))
   const datas = data1.concat(new_data2, data3, data4);
+  console.log(datas);
 
   // 找到資料中的最大月份，用useMemo存起來
   const getMonthRange = (arr) => {
@@ -86,7 +87,10 @@ function Calendar() {
   const [currentMonth, setCurrentMonth] = useState([shownMonths[currentMonthIdx].year, shownMonths[currentMonthIdx].month]);
 
   // 當前月份共幾天、第一天最後一天分別是星期幾
-  const firstDay = new Date(currentMonth[0], currentMonth[1]-1, 1);
+  const thisMonth = currentMonth[1] === 0? 
+  [currentMonth[0] - 1, 11]:
+  [currentMonth[0], currentMonth[1] - 1];
+  const firstDay = new Date(thisMonth[0], thisMonth[1], 1);
   const [currentDays, setCurrentDays] = useState({
     days: 0,
     firstDayOfWeek: 0,
@@ -116,11 +120,10 @@ function Calendar() {
       const months = shownMonths;
       months.pop();
       months.unshift(newMonth);
-      console.log(months);
-      // setShownMonths(months);
+      console.log([newMonth, ...shownMonths.slice(0, 2)])
+      setShownMonths(months);
     }
     // currentMonthIdx - 1
-    console.log('moved to prev month')
     setCurrentMonthIdx(currentMonthIdx === 0? 0: currentMonthIdx - 1);
     setCurrentMonth([shownMonths[currentMonthIdx].year, shownMonths[currentMonthIdx].month]);
   }
@@ -141,7 +144,6 @@ function Calendar() {
       const months = shownMonths;
       months.shift();
       months.push(newMonth);
-      console.log(months);
       setShownMonths(months);
     }
     // currentMonthIdx + 1
@@ -150,13 +152,11 @@ function Calendar() {
     }
 
   // 點月份tab切換currentMonth
-  const handleTabClick = (e)=> {
-    // console.log(e.currentTarget)
-    // 方法一，用e.target抓到<p>裡面的value，setCurrentMonth
-
-
-    // 方法二，判斷當前active跟點擊的月份差幾個tab，看增加/減少幾個月
-
+  const handleTabClick = (e,i)=> {
+    console.log(i)
+    // e.stopPropagation();
+    setCurrentMonthIdx(i);
+    setCurrentMonth([shownMonths[currentMonthIdx].year, shownMonths[currentMonthIdx].month]);
   }
 
   // 判斷某個月份有沒有資料
@@ -204,6 +204,10 @@ function Calendar() {
     getCurrentDetails();
   }, [currentMonth])
 
+  useEffect(() => {
+    setCurrentMonth([shownMonths[currentMonthIdx].year, shownMonths[currentMonthIdx].month]);
+  }, [currentMonthIdx])
+
   return (
     <div className="calendar_container">
       <div className="top_container">
@@ -219,7 +223,7 @@ function Calendar() {
           return (
             <div key={i} className={`tab_container ${currentMonthIdx === i? 'current_tab':''}`}
             onClick={(e) => {
-              handleTabClick(e);
+              handleTabClick(e,i);
             }}>
               <div className="date">
                 <p className="year">{m?.year}&nbsp;</p>
